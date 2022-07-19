@@ -1,12 +1,12 @@
 NAME		= 	philo
 
-SRCS 		= 	philo.c
+SRCS			= $(wildcard srcs/*.c) \
 
 OBJS		= 	$(SRCS:.c=.o)
 
 CC			= gcc
-#CFLAGS		= -Wall -Wextra -Werror -I.
-CFLAGS		= -I.
+#CFLAGS		= -g -pthread -Wall -Wextra -Werror -I ./includes
+CFLAGS		= -g -pthread -I ./includes
 RM			= rm -f
 
 
