@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:47:55 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/20 10:49:35 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:16:07 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ unsigned long get_actual_time_ms(void)
 {
 	struct timeval t;
     unsigned long time_ms;
+	static unsigned long offset = 0; 
     
 	gettimeofday(&t, NULL);
-    time_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	time_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	if (!offset)
+		offset = time_ms;
+    time_ms -= offset;
 	return (time_ms);
 }
 

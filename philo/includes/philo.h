@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/20 15:43:53 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:09:55 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void wait_threads(t_philo *ph, int n);
 
 /* utils.c */
 int	ft_atoi(const char *str);
+unsigned long get_actual_time_ms(void);
+unsigned long time_has_passed(unsigned long start, unsigned long time);
 
 
 #endif
