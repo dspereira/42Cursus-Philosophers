@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/20 09:56:32 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:43:53 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,9 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct s_philo
-{
-	pthread_t		thread;
-	unsigned long	ph_number;
-	unsigned long	eating_time;
-	unsigned long	sleeping_time;
-	unsigned long	thinking_time;
-	int 			*fork_1;
-	int				*fork_2;
-}   t_philo;
+# define UNAVAILABLE	1
+# define AVAILABLE		0
+
 
 typedef struct s_args
 {
@@ -38,6 +31,19 @@ typedef struct s_args
 	unsigned long	time_to_sleep;
 	unsigned long	nb_times_to_eat;
 }   t_args;
+
+typedef struct s_philo
+{
+	pthread_t		thread;
+	pthread_mutex_t	*mutex;
+	int 			*fork_left;
+	int				*fork_right;
+	unsigned long	ph_number;
+	unsigned long	eating_time;
+	unsigned long	sleeping_time;
+	unsigned long	thinking_time;
+	t_args			args;
+}   t_philo;
 
 
 /* ph_routine.c */

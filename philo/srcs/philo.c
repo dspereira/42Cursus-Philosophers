@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/19 17:38:21 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:44:01 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 // number_of_times_each_philosopher_must_eat -> quantidade de vezes que cada filosofo tem de comer. opecional
 
+/*
 int *init_forks(t_args args)
 {
 	int	*forks;
@@ -57,14 +58,68 @@ t_philo *init_philo(t_args args, int *forks)
 	}
 	return (NULL);
 }
+*/
+
+int *init_forks(int n)
+{
+	int	*forks;
+	int	i;
+
+	if (n > 0)
+	{
+		forks = malloc(n * sizeof(int));
+		i = 0;
+		while (i < n)
+		{
+			forks[i] = AVAILABLE;
+			i++;
+		}
+		return (forks);
+	}
+	return (NULL);
+}
+
+
+t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex)
+{
+	t_philo *ph;
+	int		i;
+
+	
+	if (n > 0)
+	{
+		ph = malloc(n * sizeof(t_philo));
+		i = 0;
+		while (i < n)
+		{
+			ph[i].mutex = mutex;
+			ph[i].ph_number = i + 1;
+			ph[i].args = args;
+			ph[i].eating_time = 0;
+			ph[i].sleeping_time = 0;
+			ph[i].thinking_time = 0;
+			ph[i].fork_right = &forks[i];
+			if (i == 0)
+				ph[i].fork_left = &forks[n - 1];
+			else 
+				ph[i].fork_left = &forks[i - 1];
+						
+			i++;
+		}
+		return (ph);
+	}
+	return (NULL);
+}
 
 int main (int argc, char **argv)
 {
 	t_args	args;
 	t_philo *ph;
 	int		*forks;
-	pthread_t t1, t2;
+	int		n_ph;
+	pthread_mutex_t	mutex;
 	
+	pthread_mutex_init(&mutex, NULL);
 	if (argc < 5)
 	{
 		printf("error\n");
@@ -72,6 +127,8 @@ int main (int argc, char **argv)
 	}
 	else
 	{
+		n_ph = ft_atoi(argv[1]);
+
 		args.number_of_ph = ft_atoi(argv[1]);
 		args.time_to_die = ft_atoi(argv[2]);
 		args.time_to_eat = ft_atoi(argv[3]);
@@ -81,11 +138,13 @@ int main (int argc, char **argv)
 		else 
 			args.nb_times_to_eat = 0;
 	}
-	forks = init_forks(args);
-	ph = init_philo(args, forks);
+	forks = init_forks(n_ph);
+	ph = init_philo(forks, args, n_ph, &mutex);
 
-	create_threads(ph, args.number_of_ph);
-	wait_threads(ph, args.number_of_ph);
+	create_threads(ph, n_ph);
+	wait_threads(ph, n_ph);
 	
+	pthread_mutex_destroy(&mutex);
+
 	return (0);
 }
