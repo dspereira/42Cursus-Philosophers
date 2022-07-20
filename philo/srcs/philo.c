@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/19 16:16:30 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:38:21 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_philo *init_philo(t_args args, int *forks)
 		{
 			ph[i].ph_number = i + 1;
 			i++;
-			return (ph);
 		}
+		return (ph);
 	}
 	return (NULL);
 }
@@ -84,10 +84,8 @@ int main (int argc, char **argv)
 	forks = init_forks(args);
 	ph = init_philo(args, forks);
 
-    pthread_create(&(ph[0].thread), NULL, &ph_routine, &ph[0]);
-	pthread_create(&(ph[1].thread), NULL, &ph_routine, &ph[1]);
-	pthread_join(ph[0].thread, NULL);
-	pthread_join(ph[1].thread, NULL);
+	create_threads(ph, args.number_of_ph);
+	wait_threads(ph, args.number_of_ph);
 	
 	return (0);
 }
