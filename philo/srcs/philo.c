@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/20 15:44:01 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/21 11:13:26 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex)
 			ph[i].eating_time = 0;
 			ph[i].sleeping_time = 0;
 			ph[i].thinking_time = 0;
+			ph[i].n_times_of_ate = 0;
 			ph[i].fork_right = &forks[i];
 			if (i == 0)
 				ph[i].fork_left = &forks[n - 1];

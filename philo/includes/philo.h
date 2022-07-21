@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/20 17:09:55 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/21 11:12:44 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	unsigned long	eating_time;
 	unsigned long	sleeping_time;
 	unsigned long	thinking_time;
+	unsigned long	n_times_of_ate;
 	t_args			args;
 }   t_philo;
 
