@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/21 12:15:15 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/21 18:33:55 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,55 +22,43 @@
 
 int holding_forks(t_philo ph);
 int drop_forks(t_philo ph);
-int is_eating(t_philo *ph);
+int is_eating(t_philo *ph, unsigned long *time);
 int get_next_state(t_philo ph, int actual_state);
-int is_sleeping(t_philo ph);
+int is_sleeping(t_philo *ph);
 int is_thinkig(t_philo ph);
-
-/*
-void *ph_routine(void *philo)
-{
-	t_philo ph;
-	int     have_forks;
-	int     is_dead;
-	int     n_cicles;
-
-	ph = *(t_philo *) philo;
-	have_forks = 0;
-	is_dead = 0;
-	n_cicles = 0;
-	while (!is_dead)
-	{
-		have_forks = holding_forks(ph);
-		if (have_forks)
-		{
-			printf("time %i is eating\n", ph.ph_number);
-			drop_forks(ph);
-			printf("time %i is sleeping\n", ph.ph_number);
-			printf("time %i is thinking\n", ph.ph_number);
-			n_cicles++;
-			if (n_cicles == ph.args.nb_times_to_eat)
-				is_dead = 1;
-		}
-	}
-}
-*/
 
 void *ph_routine(void *philo)
 {
 	t_philo ph;
 	int     state;
+	unsigned long start_time;
 
 	ph = *(t_philo *) philo;
 	state = HOLDING_FORKS;
 
+	start_time = get_actual_time_ms();
+
 	while (state != EXIT)
 	{
+		pthread_mutex_lock(ph.mutex);
+		if (*ph.taks_end == ph.number_of_tasks)
+		{
+			pthread_mutex_unlock(ph.mutex);
+			return (NULL);
+		}
+		if (time_has_passed(start_time, ph.args.time_to_die))
+		{
+			*ph.taks_end = ph.number_of_tasks;
+			printf("%lu %i died\n", get_actual_time_ms(), ph.ph_number);
+			pthread_mutex_unlock(ph.mutex);
+			return (NULL);
+		}
+		pthread_mutex_unlock(ph.mutex);
 		if (state == HOLDING_FORKS)
 			state = holding_forks(ph);
 		else if (state == EATING)
 		{
-			state = is_eating(&ph);
+			state = is_eating(&ph, &start_time);
 		}
 		else if (state == DROP_FORKS)
 		{
@@ -78,7 +66,7 @@ void *ph_routine(void *philo)
 		}
 		else if (state == SLEEPING)
 		{
-			state = is_sleeping(ph);
+			state = is_sleeping(&ph);
 		}
 		else if (state == THINKING)
 		{
@@ -94,7 +82,13 @@ int holding_forks(t_philo ph)
 
 	state = HOLDING_FORKS;
 	pthread_mutex_lock(ph.mutex);
-	if (*(ph.fork_left) == AVAILABLE && *(ph.fork_right) == AVAILABLE)
+	if (!(ph.fork_left) && *(ph.fork_right) == AVAILABLE)
+	{
+		*(ph.fork_right) = UNAVAILABLE;
+		time_ms = get_actual_time_ms();
+		printf("%lu %i has taken a fork\n", time_ms, ph.ph_number);
+	}
+	else if (*(ph.fork_right) == AVAILABLE && *(ph.fork_left) == AVAILABLE)
 	{
 		*(ph.fork_left) = UNAVAILABLE;
 		*(ph.fork_right) = UNAVAILABLE;
@@ -110,30 +104,54 @@ int holding_forks(t_philo ph)
 int drop_forks(t_philo ph)
 {
 	pthread_mutex_lock(ph.mutex);
-	*(ph.fork_left) = AVAILABLE;
+	if (ph.fork_left)
+		*(ph.fork_left) = AVAILABLE;
 	*(ph.fork_right) = AVAILABLE;
 	pthread_mutex_unlock(ph.mutex);
 	return(get_next_state(ph, DROP_FORKS));
 }
 
-int is_eating(t_philo *ph)
+int is_eating(t_philo *ph, unsigned long *time)
 {
 	int state;
 
-	printf("time %i is eating\n", ph->ph_number);
 	state = EATING;
-	state = get_next_state(*ph, state);
-	(ph->n_times_of_ate)++;
+	if (!ph->eating.status)
+	{
+		ph->eating.status = 1;
+		ph->eating.time = get_actual_time_ms();
+		*time = get_actual_time_ms();
+		printf("%lu %i is eating\n",ph->eating.time, ph->ph_number);
+	}
+	else if (time_has_passed(ph->eating.time, ph->args.time_to_eat))
+	{
+		ph->eating.status = 0;
+		(ph->n_times_of_ate)++;
+		pthread_mutex_lock(ph->mutex);
+		if (ph->n_times_of_ate == ph->args.nb_times_to_eat)
+			(*ph->taks_end)++;
+		pthread_mutex_unlock(ph->mutex);
+		state = get_next_state(*ph, state);
+	}
 	return (state);
 }
 
-int is_sleeping(t_philo ph)
+int is_sleeping(t_philo *ph)
 {
 	int state;
 
-	printf("time %i is sleeping\n", ph.ph_number);
 	state = SLEEPING;
-	state = get_next_state(ph, state);
+	if (!ph->sleeping.status)
+	{
+		ph->sleeping.status = 1;
+		ph->sleeping.time = get_actual_time_ms();
+		printf("%lu %i is sleeping\n",ph->sleeping.time, ph->ph_number);
+	}
+	else if (time_has_passed(ph->sleeping.time, ph->args.time_to_sleep))
+	{
+		ph->sleeping.status = 0;
+		state = get_next_state(*ph, state);
+	}
 	return (state);
 }
 
@@ -141,7 +159,7 @@ int is_thinkig(t_philo ph)
 {
 	int state;
 
-	printf("time %i is thinkig\n", ph.ph_number);
+	printf("%lu %i is thinkig\n",get_actual_time_ms(), ph.ph_number);
 	state = THINKING;
 	state = get_next_state(ph, state);
 	return (state);
@@ -164,24 +182,3 @@ int get_next_state(t_philo ph, int actual_state)
 		return (HOLDING_FORKS);
 	}
 }
-
-/*
-int is_eating(t_philo ph)
-{
-	static unsigned long start_time = 0;
-	int                  status;
-
-	status = 0;
-	if (!start_time)
-	{
-		start_time = get_actual_time_ms();
-		printf("%lu %i is eating\n",start_time, ph.ph_number);
-	}
-	if (time_has_passed(start_time, ph.args.time_to_eat))
-	{
-		start_time = 0;
-		status = 1;
-	}
-	return (status);
-}
-*/

@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/21 11:13:26 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/21 18:07:28 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int *init_forks(int n)
 }
 
 
-t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex)
+t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int *tasks_end)
 {
 	t_philo *ph;
 	int		i;
@@ -92,6 +92,9 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex)
 		i = 0;
 		while (i < n)
 		{
+			ph[i].number_of_tasks = args.number_of_ph;
+			ph[i].taks_end = tasks_end;
+
 			ph[i].mutex = mutex;
 			ph[i].ph_number = i + 1;
 			ph[i].args = args;
@@ -99,12 +102,25 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex)
 			ph[i].sleeping_time = 0;
 			ph[i].thinking_time = 0;
 			ph[i].n_times_of_ate = 0;
+			ph[i].eating.status = 0;
+			ph[i].eating.time = 0;
+			ph[i].sleeping.status = 0;
+			ph[i].sleeping.time = 0;
+
+
 			ph[i].fork_right = &forks[i];
-			if (i == 0)
-				ph[i].fork_left = &forks[n - 1];
-			else 
-				ph[i].fork_left = &forks[i - 1];
-						
+			if (ph->args.number_of_ph > 1)
+			{
+				if (i == 0)
+					ph[i].fork_left = &forks[n - 1];
+				else 
+					ph[i].fork_left = &forks[i - 1];
+			}
+			else
+			{
+				ph[i].fork_left = NULL;
+			}
+	
 			i++;
 		}
 		return (ph);
@@ -119,6 +135,8 @@ int main (int argc, char **argv)
 	int		*forks;
 	int		n_ph;
 	pthread_mutex_t	mutex;
+
+	int taks_end = 0;
 	
 	pthread_mutex_init(&mutex, NULL);
 	if (argc < 5)
@@ -140,7 +158,7 @@ int main (int argc, char **argv)
 			args.nb_times_to_eat = 0;
 	}
 	forks = init_forks(n_ph);
-	ph = init_philo(forks, args, n_ph, &mutex);
+	ph = init_philo(forks, args, n_ph, &mutex, &taks_end);
 
 	create_threads(ph, n_ph);
 	wait_threads(ph, n_ph);

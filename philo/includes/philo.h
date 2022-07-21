@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/21 11:12:44 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/21 16:37:45 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ typedef struct s_args
 	unsigned long	nb_times_to_eat;
 }   t_args;
 
+typedef struct s_time
+{
+	int status;
+	unsigned long time;
+}	t_time;
+
 typedef struct s_philo
 {
 	pthread_t		thread;
@@ -39,10 +45,18 @@ typedef struct s_philo
 	int 			*fork_left;
 	int				*fork_right;
 	unsigned long	ph_number;
+
 	unsigned long	eating_time;
 	unsigned long	sleeping_time;
 	unsigned long	thinking_time;
 	unsigned long	n_times_of_ate;
+
+	int				number_of_tasks;
+	int 			*taks_end;
+
+	t_time			eating;
+	t_time			sleeping;
+
 	t_args			args;
 }   t_philo;
 
