@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/21 18:07:28 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/22 17:37:23 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,15 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int 
 	t_philo *ph;
 	int		i;
 
+	int *died;
+	int *stop_to_eat;
 	
+	died = malloc(sizeof(int));
+	*died = 0;
+	stop_to_eat = malloc(sizeof(int));
+	*stop_to_eat = 0;
+
+
 	if (n > 0)
 	{
 		ph = malloc(n * sizeof(t_philo));
@@ -106,7 +114,8 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int 
 			ph[i].eating.time = 0;
 			ph[i].sleeping.status = 0;
 			ph[i].sleeping.time = 0;
-
+			ph[i].died = died;
+			ph[i].stop_to_eat = stop_to_eat;
 
 			ph[i].fork_right = &forks[i];
 			if (ph->args.number_of_ph > 1)
