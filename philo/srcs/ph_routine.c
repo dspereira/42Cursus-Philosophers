@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/22 18:21:44 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:44:06 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,37 @@
 
 #define HOLDING_FORKS	0
 #define EATING			1
-#define DROP_FORKS		2
+//#define DROP_FORKS		2
 #define SLEEPING		3
 #define THINKING		4
 #define DIED			5
 #define	EATED_ENOUGH	6
 #define EXIT			7
 
+
+// Apenas de teste
+#define RESET   "\033[0m"
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
+#define BOLDBLACK   "\033[1m\033[30m"      /* Bold Black */
+#define BOLDRED     "\033[1m\033[31m"      /* Bold Red */
+#define BOLDGREEN   "\033[1m\033[32m"      /* Bold Green */
+#define BOLDYELLOW  "\033[1m\033[33m"      /* Bold Yellow */
+#define BOLDBLUE    "\033[1m\033[34m"      /* Bold Blue */
+#define BOLDMAGENTA "\033[1m\033[35m"      /* Bold Magenta */
+#define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
+#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+
+
+
 int holding_forks(t_philo ph);
-int drop_forks(t_philo ph);
+void drop_forks(t_philo ph);
 int is_eating(t_philo *ph);
 int get_next_state(t_philo ph, int actual_state);
 int is_sleeping(t_philo *ph);
@@ -55,8 +77,6 @@ void *ph_routine(void *philo)
 			state = holding_forks(ph);
 		else if (state == EATING)
 			state = is_eating(&ph);
-		else if (state == DROP_FORKS)
-			state = drop_forks(ph);
 		else if (state == SLEEPING)
 			state = is_sleeping(&ph);
 		else if (state == THINKING)
@@ -93,13 +113,12 @@ int holding_forks(t_philo ph)
 	return (state);
 }
 
-int drop_forks(t_philo ph)
+void drop_forks(t_philo ph)
 {
 	pthread_mutex_lock(ph.mutex);
 	*(ph.fork_left) = AVAILABLE;
 	*(ph.fork_right) = AVAILABLE;
 	pthread_mutex_unlock(ph.mutex);
-	return(get_next_state(ph, DROP_FORKS));
 }
 
 int is_eating(t_philo *ph)
@@ -111,12 +130,14 @@ int is_eating(t_philo *ph)
 	{
 		ph->eating.status = 1;
 		ph->eating.time = get_actual_time_ms();
-		printf("%lu %i is eating\n",ph->eating.time, ph->ph_number);
+		//printf("%lu %i is eating\n",ph->eating.time, ph->ph_number);
+		printf("%s%lu %i is eating%s\n",RED, ph->eating.time, ph->ph_number, RESET);
 	}
 	else if (time_has_passed(ph->eating.time, ph->args.time_to_eat))
 	{
 		ph->eating.status = 0;
 		(ph->n_times_of_ate)++;
+		drop_forks(*ph);
 		state = get_next_state(*ph, state);
 	}
 	return (state);
@@ -151,14 +172,11 @@ int is_thinkig(t_philo ph)
 	return (state);
 }
 
-
 int get_next_state(t_philo ph, int actual_state)
 {
 	if (actual_state == HOLDING_FORKS)
 		return (EATING);
 	else if (actual_state == EATING)
-		return (DROP_FORKS);
-	else if (actual_state == DROP_FORKS)
 		return (SLEEPING);
 	else if (actual_state == SLEEPING)
 		return (THINKING);
@@ -195,14 +213,7 @@ int check_of_times_eat(t_philo *ph, int actual_state)
 	int state;
 
 	state = actual_state;
-	pthread_mutex_lock(ph->mutex);
-	if (*(ph->stop_to_eat))
-		state = EATED_ENOUGH;
 	if (ph->n_times_of_ate == ph->args.nb_times_to_eat)
-	{
-		*(ph->stop_to_eat) = 1;
 		state = EATED_ENOUGH;
-	}
-	pthread_mutex_unlock(ph->mutex);
 	return (state);
 }
