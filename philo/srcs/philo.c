@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/22 17:37:23 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/24 14:06:42 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,17 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int 
 
 	int *died;
 	int *stop_to_eat;
+	int	*cycles;
+	int	*cycles_1;
 	
 	died = malloc(sizeof(int));
 	*died = 0;
 	stop_to_eat = malloc(sizeof(int));
 	*stop_to_eat = 0;
-
+	cycles = malloc(sizeof(int));
+	*cycles = EVEN;
+	cycles_1 = malloc(sizeof(int));
+	*cycles_1 = 0;
 
 	if (n > 0)
 	{
@@ -116,6 +121,28 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int 
 			ph[i].sleeping.time = 0;
 			ph[i].died = died;
 			ph[i].stop_to_eat = stop_to_eat;
+			ph[i].cycles = cycles;
+			ph[i].cycles_1 = cycles_1;
+
+			ph[i].odd_or_even = ph[i].ph_number % 2;
+
+
+			if (ph[i].args.number_of_ph % 2 == 0)
+				ph[i].total_cicles = ph[i].args.number_of_ph / 2;
+			else if(ph[i].args.number_of_ph > 1)
+			{
+				if (ph[i].ph_number % 2 == 0)
+				{
+					ph[i].total_cicles = (ph[i].args.number_of_ph / 2);
+				}
+				else
+				{
+					ph[i].total_cicles = (ph[i].args.number_of_ph / 2) + 1;
+				} 
+			}
+			else 
+				ph[i].total_cicles = 1;
+
 
 			ph[i].fork_right = &forks[i];
 			if (ph->args.number_of_ph > 1)
@@ -164,7 +191,7 @@ int main (int argc, char **argv)
 		if (argc == 6)
 			args.nb_times_to_eat = ft_atoi(argv[5]);
 		else 
-			args.nb_times_to_eat = 0;
+			args.nb_times_to_eat = 1000000;
 	}
 	forks = init_forks(n_ph);
 	ph = init_philo(forks, args, n_ph, &mutex, &taks_end);

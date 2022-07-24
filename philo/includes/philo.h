@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/22 17:34:10 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/23 17:43:51 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 # define UNAVAILABLE	1
 # define AVAILABLE		0
+
+# define ODD			0
+# define EVEN			1
 
 
 typedef struct s_args
@@ -56,6 +59,13 @@ typedef struct s_philo
 
 	int				*died;
 	int				*stop_to_eat;
+	int				*cycles;
+	int				*cycles_1;
+
+	int				total_cicles;
+
+	int				odd_or_even; 
+
 	t_time			eating;
 	t_time			sleeping;
 

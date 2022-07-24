@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/23 15:44:06 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/24 11:42:40 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ int holding_forks(t_philo ph)
 	int             state;
 
 	state = HOLDING_FORKS;
+	if (!(*ph.cycles == ph.odd_or_even))
+		return (state);
+
 	pthread_mutex_lock(ph.mutex);
 	if (!(ph.fork_left) && *(ph.fork_right) == AVAILABLE)
 	{
@@ -130,7 +133,17 @@ int is_eating(t_philo *ph)
 	{
 		ph->eating.status = 1;
 		ph->eating.time = get_actual_time_ms();
-		//printf("%lu %i is eating\n",ph->eating.time, ph->ph_number);
+		pthread_mutex_lock(ph->mutex);
+		(*(ph->cycles_1))++;
+		if (*(ph->cycles_1) == ph->total_cicles)
+		{
+			if (*(ph->cycles) == EVEN)
+				*(ph->cycles) = ODD;
+			else 
+				*(ph->cycles) = EVEN;
+			*(ph->cycles_1) = 0;
+		}	
+		pthread_mutex_unlock(ph->mutex);
 		printf("%s%lu %i is eating%s\n",RED, ph->eating.time, ph->ph_number, RESET);
 	}
 	else if (time_has_passed(ph->eating.time, ph->args.time_to_eat))

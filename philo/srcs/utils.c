@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:47:55 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/22 11:51:33 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/24 11:37:50 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ unsigned long get_actual_time_ms(void)
 	return (time_ms);
 }
 */
-
 
 unsigned long get_actual_time_ms(void)
 {
