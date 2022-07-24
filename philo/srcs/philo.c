@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 14:06:42 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/24 15:40:17 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ int main (int argc, char **argv)
 		if (argc == 6)
 			args.nb_times_to_eat = ft_atoi(argv[5]);
 		else 
-			args.nb_times_to_eat = 1000000;
+			args.nb_times_to_eat = 2147483647;
 	}
 	forks = init_forks(n_ph);
 	ph = init_philo(forks, args, n_ph, &mutex, &taks_end);

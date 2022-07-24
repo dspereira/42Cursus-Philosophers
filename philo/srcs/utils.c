@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:47:55 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 11:37:50 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/24 14:51:02 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ unsigned long get_actual_time_ms(void)
 }
 */
 
+/*
 unsigned long get_actual_time_ms(void)
 {
 	struct timeval t;
@@ -75,6 +76,43 @@ unsigned long get_actual_time_ms(void)
 			}
 		}
 	}
+    time_ms -= offset;
+	return (time_ms);
+}
+*/
+
+
+
+unsigned long get_actual_time_ms(void)
+{
+	struct timeval t;
+	static struct timeval t_buff;
+    unsigned long time_ms;
+	static unsigned long offset = 0; 
+    
+	gettimeofday(&t, NULL);
+	
+	if (t_buff.tv_sec != t.tv_sec 
+		|| t.tv_usec > t_buff.tv_usec - 1000)
+		time_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+	
+	if (!offset)
+	{
+		offset = time_ms;
+		time_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+		while (1)
+		{
+			gettimeofday(&t, NULL);
+			t_buff = t;
+			time_ms = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+			if (time_ms > offset)
+			{
+				offset = time_ms;
+				break ;
+			}
+		}
+	}
+
     time_ms -= offset;
 	return (time_ms);
 }
