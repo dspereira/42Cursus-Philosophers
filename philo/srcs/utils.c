@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:47:55 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 14:51:02 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 10:07:34 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ unsigned long get_actual_time_ms(void)
 */
 
 
-
+/*
 unsigned long get_actual_time_ms(void)
 {
 	struct timeval t;
@@ -126,3 +126,4 @@ unsigned long time_has_passed(unsigned long start, unsigned long time)
         return (actual);
     return (0);
 }
+*/

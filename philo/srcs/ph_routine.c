@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 15:41:02 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 10:30:07 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	*ph_routine(void *philo)
 	t_philo	ph;
 	int		state;
 
+	usleep(500);
 	ph = *(t_philo *) philo;
+	time_counter_ini(ph.mutex);
 	state = HOLDING_FORKS;
 	while (state != EXIT)
 	{

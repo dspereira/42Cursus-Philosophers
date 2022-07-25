@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 17:44:01 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 10:37:43 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ typedef struct s_args
 
 typedef struct s_time
 {
-	int status;
-	unsigned long time;
+	int				status;
+	unsigned long	time;
 }	t_time;
 
 typedef struct s_philo
@@ -80,10 +80,11 @@ typedef struct s_philo
 	t_args			args;
 }   t_philo;
 
-/*
+
 typedef struct s_settings
 {
 	int				number_of_ph;
+	int				nb_times_eat_ultd;
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
@@ -92,11 +93,18 @@ typedef struct s_settings
 
 typedef struct s_philo_1
 {
-	t_settings stg;
+	t_settings		stg;
+	t_time			eating;
+	t_time			sleeping;
+
+	int				*died;
+	int				*stop_to_eat;
+	int				*cycles;
+	int				*cycles_1;
 	
 
 }   t_philo_1;
-*/
+
 
 /* ph_routine.c */
 void *ph_routine(void *philo);
@@ -107,9 +115,6 @@ void wait_threads(t_philo *ph, int n);
 
 /* utils.c */
 int	ft_atoi(const char *str);
-unsigned long get_actual_time_ms(void);
-unsigned long time_has_passed(unsigned long start, unsigned long time);
-
 
 /* ph_tasks.c */
 int		is_eating(t_philo *ph);
@@ -120,5 +125,10 @@ int		is_dying(t_philo ph);
 /* ph_tasks2.c */
 int		holding_forks(t_philo ph);
 void	drop_forks(t_philo ph);
+
+/* time_counter.c */
+void time_counter_ini(pthread_mutex_t *mutex);
+unsigned long get_actual_time_ms(void);
+unsigned long time_has_passed(unsigned long start, unsigned long time);
 
 #endif

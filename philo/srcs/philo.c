@@ -6,11 +6,15 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 15:40:17 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 10:34:00 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+// Run teste
+// ./start.sh ../ 1
+
 
 // number_of_philosophers
 
