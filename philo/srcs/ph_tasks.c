@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:04:29 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 15:34:44 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:46:05 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,21 @@ int	is_eating(t_philo *ph)
 		ph->eating.status = 1;
 		ph->eating.time = get_actual_time_ms();
 		pthread_mutex_lock(ph->mutex);
-		(*(ph->cycles_1))++;
-		if (*(ph->cycles_1) == ph->total_cicles)
+		(*(ph->cycles))++;
+		
+		if (*(ph->cycles) == ph->total_cycles)
 		{
-			if (*(ph->cycles) == EVEN)
-				*(ph->cycles) = ODD;
+			if (*(ph->can_hold_fork) == EVEN)
+				*(ph->can_hold_fork) = ODD;
 			else
-				*(ph->cycles) = EVEN;
-			*(ph->cycles_1) = 0;
+				*(ph->can_hold_fork) = EVEN;
+			*(ph->cycles) = 0;
 		}
+		
 		pthread_mutex_unlock(ph->mutex);
 		printf("%lu %i is eating\n", ph->eating.time, ph->ph_number);
 	}
-	else if (time_has_passed(ph->eating.time, ph->args.time_to_eat))
+	else if (time_has_passed(ph->eating.time, ph->stg.time_to_eat))
 	{
 		ph->eating.status = 0;
 		(ph->n_times_of_ate)++;
@@ -55,7 +57,7 @@ int	is_sleeping(t_philo *ph)
 		ph->sleeping.time = get_actual_time_ms();
 		printf("%lu %i is sleeping\n", ph->sleeping.time, ph->ph_number);
 	}
-	else if (time_has_passed(ph->sleeping.time, ph->args.time_to_sleep))
+	else if (time_has_passed(ph->sleeping.time, ph->stg.time_to_sleep))
 	{
 		ph->sleeping.status = 0;
 		state = THINKING;

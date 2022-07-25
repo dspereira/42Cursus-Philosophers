@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:23:52 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/24 15:36:00 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:55:32 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	holding_forks(t_philo ph)
 	int				state;
 
 	state = HOLDING_FORKS;
-	if (!(*ph.cycles == ph.odd_or_even))
+	if (!(*ph.can_hold_fork == ph.odd_even))
 		return (state);
 	pthread_mutex_lock(ph.mutex);
 	if (!(ph.fork_left) && *(ph.fork_right) == AVAILABLE)

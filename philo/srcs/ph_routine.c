@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/25 10:30:07 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:01:09 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	*ph_routine(void *philo)
 	state = HOLDING_FORKS;
 	while (state != EXIT)
 	{
+		usleep(100);
 		state = check_ph_is_dead(&ph, state);
-		state = check_of_times_eat(&ph, state);
+		if (!ph.stg.nb_times_to_eat_ultd)
+			state = check_of_times_eat(&ph, state);
 		if (state == HOLDING_FORKS)
 			state = holding_forks(ph);
 		else if (state == EATING)
@@ -51,7 +53,7 @@ static int	check_ph_is_dead(t_philo *ph, int actual_state)
 	pthread_mutex_lock(ph->mutex);
 	if (*(ph->died))
 		state = DIED;
-	else if (time_has_passed(ph->eating.time, ph->args.time_to_die))
+	else if (time_has_passed(ph->eating.time, ph->stg.time_to_die))
 	{
 		*(ph->died) = ph->ph_number;
 		state = DIED;
@@ -65,7 +67,7 @@ static int	check_of_times_eat(t_philo *ph, int actual_state)
 	int	state;
 
 	state = actual_state;
-	if (ph->n_times_of_ate == ph->args.nb_times_to_eat)
+	if (ph->n_times_of_ate == ph->stg.nb_times_to_eat)
 		state = EATED_ENOUGH;
 	return (state);
 }

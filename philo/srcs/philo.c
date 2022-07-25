@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/25 10:34:00 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/25 16:41:33 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,6 @@
 
 // number_of_times_each_philosopher_must_eat -> quantidade de vezes que cada filosofo tem de comer. opecional
 
-/*
-int *init_forks(t_args args)
-{
-	int	*forks;
-	int	i;
-
-	if (args.number_of_ph > 0)
-	{
-		forks = malloc(args.number_of_ph * sizeof(int));
-		i = 0;
-		while (i < args.number_of_ph)
-		{
-			forks[i] = 0;
-			i++;
-		}
-		return (forks);
-	}
-	return (NULL);
-}
-
-t_philo *init_philo(t_args args, int *forks)
-{
-	t_philo *ph;
-	int		i;
-
-	if (args.number_of_ph > 0)
-	{
-		ph = malloc(args.number_of_ph * sizeof(t_philo));
-		i = 0;
-		while (i < args.number_of_ph)
-		{
-			ph[i].ph_number = i + 1;
-			i++;
-		}
-		return (ph);
-	}
-	return (NULL);
-}
-*/
 
 int *init_forks(int n)
 {
@@ -83,7 +44,7 @@ int *init_forks(int n)
 	return (NULL);
 }
 
-
+/*
 t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int *tasks_end)
 {
 	t_philo *ph;
@@ -167,6 +128,7 @@ t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int 
 	}
 	return (NULL);
 }
+*/
 
 int main (int argc, char **argv)
 {
@@ -198,7 +160,8 @@ int main (int argc, char **argv)
 			args.nb_times_to_eat = 2147483647;
 	}
 	forks = init_forks(n_ph);
-	ph = init_philo(forks, args, n_ph, &mutex, &taks_end);
+	//ph = init_philo(forks, args, n_ph, &mutex, &taks_end);
+	ph = philo_init(argc, argv, &mutex);
 
 	create_threads(ph, n_ph);
 	wait_threads(ph, n_ph);
