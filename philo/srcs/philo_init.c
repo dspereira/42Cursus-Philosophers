@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/26 11:15:59 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/26 12:46:46 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,63 +15,67 @@
 static t_settings settings_init(int argc, char **argv);
 static int *init_forks(int n);
 static void add_forks_to_ph(t_philo *ph, int *forks);
+static void add_data_to_ph(t_philo *ph, t_settings stg, int *forks, pthread_mutex_t *mutex);
+static void add_data_to_ph2(t_philo *ph);
 
 t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 {
 	t_philo		*ph;
 	t_settings	stg;
-	int			i;
 	int			*forks;
 
-	int *died;
+	stg = settings_init(argc, argv);
+	ph = malloc(stg.number_of_ph * sizeof(t_philo));
+	forks = init_forks(stg.number_of_ph);
+	add_data_to_ph(ph, stg, forks, mutex);
+	return (ph);
+}
+
+static void add_data_to_ph(t_philo *ph, t_settings stg, int *forks, pthread_mutex_t *mutex)
+{
+	int	*died;
 	int	*cycles;
 	int	*can_hold_fork;
-	
+	int	i;
+
 	died = malloc(sizeof(int));
 	*died = 0;
 	cycles = malloc(sizeof(int));
 	*cycles = 0;
 	can_hold_fork = malloc(sizeof(int));
 	*can_hold_fork = ODD;
-
-	stg = settings_init(argc, argv);
-	ph = malloc(stg.number_of_ph * sizeof(t_philo));
-	forks = init_forks(stg.number_of_ph);
-	
 	i = 0;
-
 	while (i < stg.number_of_ph)
 	{
 		ph[i].stg = stg;
 		ph[i].mutex = mutex;
 		ph[i].ph_number = i + 1;
-		ph[i].eating.status = 0;
-		ph[i].eating.time = 0;
-		ph[i].sleeping.status = 0;
-		ph[i].sleeping.time = 0;
-
-		ph[i].died = died;
-		ph[i].n_times_of_ate = 0;
-		
 		ph[i].can_hold_fork = can_hold_fork;
 		ph[i].cycles = cycles;
-		ph[i].odd_even = ph[i].ph_number % 2;
-
-
-		if (ph[i].stg.number_of_ph % 2 == 0)
-			ph[i].total_cycles = ph[i].stg.number_of_ph / 2;
-		else
-		{
-			if (ph[i].ph_number % 2 == 0)
-				ph[i].total_cycles = (ph[i].stg.number_of_ph / 2);
-			else
-				ph[i].total_cycles = (ph[i].stg.number_of_ph / 2) + 1;
-		}	
+		ph[i].died = died;
+		add_data_to_ph2(&ph[i]);
 		add_forks_to_ph(&ph[i], forks);
-		
 		i++;
 	}
-	return (ph);
+}
+
+static void add_data_to_ph2(t_philo *ph)
+{
+	ph->eating.status = 0;
+	ph->eating.time = 0;
+	ph->sleeping.status = 0;
+	ph->sleeping.time = 0;
+	ph->n_times_of_ate = 0;
+	ph->odd_even = ph->ph_number % 2;
+	if (ph->stg.number_of_ph % 2 == 0)
+		ph->total_cycles = ph->stg.number_of_ph / 2;
+	else
+	{
+		if (ph->ph_number % 2 == 0)
+			ph->total_cycles = (ph->stg.number_of_ph / 2);
+		else
+			ph->total_cycles = (ph->stg.number_of_ph / 2) + 1;
+	}	
 }
 
 static t_settings settings_init(int argc, char **argv)
