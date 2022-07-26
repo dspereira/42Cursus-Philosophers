@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/25 18:14:53 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:15:59 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 	cycles = malloc(sizeof(int));
 	*cycles = 0;
 	can_hold_fork = malloc(sizeof(int));
-	*can_hold_fork = EVEN;
+	*can_hold_fork = ODD;
 
 	stg = settings_init(argc, argv);
 	ph = malloc(stg.number_of_ph * sizeof(t_philo));
@@ -52,9 +52,6 @@ t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 
 		ph[i].died = died;
 		ph[i].n_times_of_ate = 0;
-		
-
-
 		
 		ph[i].can_hold_fork = can_hold_fork;
 		ph[i].cycles = cycles;
