@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/26 11:08:12 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/26 17:20:45 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ph_routine(void *philo)
 	state = HOLDING_FORKS;
 	while (state != EXIT)
 	{
-		usleep(100);
+		//usleep(100);
 		state = check_ph_is_dead(&ph, state);
 		if (!ph.stg.nb_times_to_eat_ultd)
 			state = check_of_times_eat(&ph, state);

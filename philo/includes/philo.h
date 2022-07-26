@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/25 16:50:44 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:50:05 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ typedef struct s_philo
 }   t_philo;
 */
 
+typedef struct s_forks
+{
+	int				fork;
+	pthread_mutex_t	mutex;
+}	t_forks;
+
 typedef struct s_settings
 {
 	int				number_of_ph;
@@ -101,26 +107,26 @@ typedef struct s_philo
 	t_time			sleeping;
 
 	int				ph_number;
-	int				*forks;
-	int 			*fork_left;
-	int				*fork_right;
+	//int				*forks;
+	//int 			*fork_left;
+	//int				*fork_right;
 	int				*died;
 	int				*stop_to_eat;
-
 	
 	unsigned long	n_times_of_ate;
-
 	
 	int				odd_even;
 	int				total_cycles;
 	int				*cycles;
 	int				*can_hold_fork;
-	
-	
 
 
+	t_forks			*forks;
+	t_forks			*fork_right;
+	t_forks			*fork_left;
 	
 }   t_philo;
+
 
 
 /* ph_routine.c */

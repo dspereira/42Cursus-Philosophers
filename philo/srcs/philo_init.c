@@ -6,23 +6,23 @@
 /*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/26 12:46:46 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:59:12 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 static t_settings settings_init(int argc, char **argv);
-static int *init_forks(int n);
-static void add_forks_to_ph(t_philo *ph, int *forks);
-static void add_data_to_ph(t_philo *ph, t_settings stg, int *forks, pthread_mutex_t *mutex);
+static t_forks *init_forks(int n);
+static void add_forks_to_ph(t_philo *ph, t_forks *forks);
+static void add_data_to_ph(t_philo *ph, t_settings stg, t_forks *forks, pthread_mutex_t *mutex);
 static void add_data_to_ph2(t_philo *ph);
 
 t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 {
 	t_philo		*ph;
 	t_settings	stg;
-	int			*forks;
+	t_forks		*forks;
 
 	stg = settings_init(argc, argv);
 	ph = malloc(stg.number_of_ph * sizeof(t_philo));
@@ -31,7 +31,7 @@ t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 	return (ph);
 }
 
-static void add_data_to_ph(t_philo *ph, t_settings stg, int *forks, pthread_mutex_t *mutex)
+static void add_data_to_ph(t_philo *ph, t_settings stg, t_forks *forks, pthread_mutex_t *mutex)
 {
 	int	*died;
 	int	*cycles;
@@ -99,18 +99,19 @@ static t_settings settings_init(int argc, char **argv)
 	return (stg);
 }
 
-static int *init_forks(int n)
+static t_forks *init_forks(int n)
 {
-	int	*forks;
+	t_forks	*forks;
 	int	i;
 	
 	if (n > 0)
 	{
-		forks = malloc(n * sizeof(int));
+		forks = malloc(n * sizeof(t_forks));
 		i = 0;
 		while (i < n)
 		{
-			forks[i] = AVAILABLE;
+			forks[i].fork = AVAILABLE;
+			pthread_mutex_init(&(forks[i].mutex), NULL);
 			i++;
 		}
 		return (forks);
@@ -118,7 +119,7 @@ static int *init_forks(int n)
 	return (NULL);
 }
 
-static void add_forks_to_ph(t_philo *ph, int *forks)
+static void add_forks_to_ph(t_philo *ph, t_forks *forks)
 {
 	int fork_index;
 

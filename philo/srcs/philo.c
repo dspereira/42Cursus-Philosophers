@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/25 16:41:33 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/26 16:57:04 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 // number_of_times_each_philosopher_must_eat -> quantidade de vezes que cada filosofo tem de comer. opecional
 
-
+/*
 int *init_forks(int n)
 {
 	int	*forks;
@@ -43,6 +43,7 @@ int *init_forks(int n)
 	}
 	return (NULL);
 }
+*/
 
 /*
 t_philo *init_philo(int *forks, t_args args, int n, pthread_mutex_t	*mutex, int *tasks_end)
@@ -134,7 +135,7 @@ int main (int argc, char **argv)
 {
 	t_args	args;
 	t_philo *ph;
-	int		*forks;
+	//int		*forks;
 	int		n_ph;
 	pthread_mutex_t	mutex;
 
@@ -159,7 +160,7 @@ int main (int argc, char **argv)
 		else 
 			args.nb_times_to_eat = 2147483647;
 	}
-	forks = init_forks(n_ph);
+	//forks = init_forks(n_ph);
 	//ph = init_philo(forks, args, n_ph, &mutex, &taks_end);
 	ph = philo_init(argc, argv, &mutex);
 
