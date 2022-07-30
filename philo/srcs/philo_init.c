@@ -6,84 +6,58 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/29 15:21:04 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 19:19:13 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static t_settings settings_init(int argc, char **argv);
-static t_forks *init_forks(int n);
-static void add_forks_to_ph(t_philo *ph, t_forks *forks);
-static void add_data_to_ph(t_philo *ph, t_settings stg, t_forks *forks, pthread_mutex_t *mutex);
-static void add_data_to_ph2(t_philo *ph);
+static void			init_data(t_philo *ph);
+static t_settings	settings_init(int argc, char **argv);
+static t_forks		*init_forks(int n);
+static void			add_forks_to_ph(t_philo *ph, t_forks *forks);
 
-t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex)
+t_philo	*philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 {
 	t_philo		*ph;
-	t_settings	stg;
 	t_forks		*forks;
+	t_settings	stg;
+	int			*died;
+	int			i;
 
 	stg = settings_init(argc, argv);
-	ph = malloc(stg.number_of_ph * sizeof(t_philo));
 	forks = init_forks(stg.number_of_ph);
-	add_data_to_ph(ph, stg, forks, mutex);
-	return (ph);
-}
-
-static void add_data_to_ph(t_philo *ph, t_settings stg, t_forks *forks, pthread_mutex_t *mutex)
-{
-	int	*died;
-	int	*cycles;
-	int	*can_hold_fork;
-	int	i;
-
+	ph = malloc(stg.number_of_ph * sizeof(t_philo));
 	died = malloc(sizeof(int));
 	*died = 0;
-	cycles = malloc(sizeof(int));
-	*cycles = 0;
-	can_hold_fork = malloc(sizeof(int));
-	*can_hold_fork = ODD;
 	i = 0;
 	while (i < stg.number_of_ph)
 	{
 		ph[i].stg = stg;
 		ph[i].mutex = mutex;
 		ph[i].ph_number = i + 1;
-		ph[i].can_hold_fork = can_hold_fork;
-		ph[i].cycles = cycles;
 		ph[i].died = died;
-		add_data_to_ph2(&ph[i]);
+		init_data(&ph[i]);
 		add_forks_to_ph(&ph[i], forks);
 		i++;
 	}
+	return (ph);
 }
 
-static void add_data_to_ph2(t_philo *ph)
+static void	init_data(t_philo *ph)
 {
 	ph->n_forks_hold = 0;
-
 	ph->eating.status = 0;
 	ph->eating.time = 0;
 	ph->sleeping.status = 0;
 	ph->sleeping.time = 0;
 	ph->n_times_of_ate = 0;
-	ph->odd_even = ph->ph_number % 2;
-	if (ph->stg.number_of_ph % 2 == 0)
-		ph->total_cycles = ph->stg.number_of_ph / 2;
-	else
-	{
-		if (ph->ph_number % 2 == 0)
-			ph->total_cycles = (ph->stg.number_of_ph / 2);
-		else
-			ph->total_cycles = (ph->stg.number_of_ph / 2) + 1;
-	}	
 }
 
-static t_settings settings_init(int argc, char **argv)
+static t_settings	settings_init(int argc, char **argv)
 {
-	t_settings stg;
-	
+	t_settings	stg;
+
 	stg.number_of_ph = ft_atoi(argv[1]);
 	stg.time_to_die = ft_atoi(argv[2]);
 	stg.time_to_eat = ft_atoi(argv[3]);
@@ -101,18 +75,18 @@ static t_settings settings_init(int argc, char **argv)
 	return (stg);
 }
 
-static t_forks *init_forks(int n)
+static t_forks	*init_forks(int n)
 {
 	t_forks	*forks;
-	int	i;
-	
+	int		i;
+
 	if (n > 0)
 	{
 		forks = malloc(n * sizeof(t_forks));
 		i = 0;
 		while (i < n)
 		{
-			forks[i].fork = AVAILABLE;
+			forks[i].state = AVAILABLE;
 			pthread_mutex_init(&(forks[i].mutex), NULL);
 			i++;
 		}
@@ -121,22 +95,20 @@ static t_forks *init_forks(int n)
 	return (NULL);
 }
 
-static void add_forks_to_ph(t_philo *ph, t_forks *forks)
+static void	add_forks_to_ph(t_philo *ph, t_forks *forks)
 {
-	int fork_index;
+	int	fork_index;
 
 	ph->forks = forks;
 	fork_index = ph->ph_number - 1;
 	ph->fork_right = &forks[fork_index];
 	if (ph->stg.number_of_ph > 1)
 	{
-		if (fork_index == 0)
-			ph->fork_left = &forks[ph->stg.number_of_ph - 1];
-		else 
-			ph->fork_left = &forks[fork_index - 1];
+		if (ph->ph_number == ph->stg.number_of_ph)
+			ph->fork_left = &forks[0];
+		else
+			ph->fork_left = &forks[fork_index + 1];
 	}
 	else
-	{
 		ph->fork_left = NULL;
-	}
 }

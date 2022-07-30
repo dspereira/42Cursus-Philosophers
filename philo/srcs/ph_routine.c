@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/29 15:58:03 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 17:23:42 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	*ph_routine(void *philo)
 	ph = *(t_philo *) philo;
 	time_counter_ini(ph.mutex);
 	state = HOLDING_FORKS;
-
 	if (ph.ph_number % 2 == 0)
 		usleep(2000);
 	if (ph.stg.number_of_ph % 2 != 0 && ph.ph_number == ph.stg.number_of_ph)
