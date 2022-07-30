@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 19:55:51 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 22:29:26 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,23 @@ int main (int argc, char **argv)
 
 	int taks_end = 0;
 	
-	pthread_mutex_init(&mutex, NULL);
+	
 	if (argc < 5)
 	{
 		printf("error\n");
 		return (1);
 	}
 
-	n_ph = ft_atoi(argv[1]);
+	init_alloc_mem();
+	n_ph = str_to_nb(argv[1]);
 	ph = philo_init(argc, argv, &mutex);
 
+	pthread_mutex_init(&mutex, NULL);
 	create_threads(ph, n_ph);
 	wait_threads(ph, n_ph);
 	
 	pthread_mutex_destroy(&mutex);
+	free_alloc_mem();
 
 	return (0);
 }

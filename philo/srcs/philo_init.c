@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 20:39:07 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 22:28:21 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ t_philo	*philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 
 	stg = settings_init(argc, argv);
 	forks = init_forks(stg.number_of_ph);
-	ph = malloc(stg.number_of_ph * sizeof(t_philo));
-	died = malloc(sizeof(int));
+	ph = oom_guard(malloc(stg.number_of_ph * sizeof(t_philo)));
+	save_alloc_mem(ph);
+	died = oom_guard(malloc(sizeof(int)));
+	save_alloc_mem(died);
 	*died = 0;
 	i = 0;
 	while (i < stg.number_of_ph)
@@ -82,7 +84,8 @@ static t_forks	*init_forks(int n)
 
 	if (n > 0)
 	{
-		forks = malloc(n * sizeof(t_forks));
+		forks = oom_guard(malloc(n * sizeof(t_forks)));
+		save_alloc_mem(forks);
 		i = 0;
 		while (i < n)
 		{
@@ -99,7 +102,6 @@ static void	add_forks_to_ph(t_philo *ph, t_forks *forks)
 {
 	int	fork_index;
 
-	ph->forks = forks;
 	fork_index = ph->ph_number - 1;
 	ph->fork_right = &forks[fork_index];
 	if (ph->stg.number_of_ph > 1)
