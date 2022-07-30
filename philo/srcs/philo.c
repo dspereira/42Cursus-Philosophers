@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 18:24:38 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 19:55:51 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 // time_to_sleep            -> tempo que o filosofo demora a dormir
 
 // number_of_times_each_philosopher_must_eat -> quantidade de vezes que cada filosofo tem de comer. opecional
-
-
 
 int main (int argc, char **argv)
 {

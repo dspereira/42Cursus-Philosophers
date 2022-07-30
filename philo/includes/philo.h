@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 17:28:23 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 20:39:14 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@
 # define UNAVAILABLE	0
 # define AVAILABLE		1
 
-# define ODD			1
-# define EVEN			0
-
 #define HOLDING_FORKS	0
 #define EATING			1
 #define SLEEPING		2
@@ -32,6 +29,13 @@
 #define DIED			4
 #define	EATED_ENOUGH	5
 #define EXIT			6
+
+#define	ARG_1			"number_of_philosophers"
+#define	ARG_2			"time_to_die"
+#define	ARG_3			"time_to_eat"
+#define	ARG_4			"time_to_sleep"
+#define	ARG_5			"number_of_times_each_philosopher_must_eat"
+
 
 typedef struct s_time
 {
@@ -82,6 +86,9 @@ void wait_threads(t_philo *ph, int n);
 
 /* utils.c */
 int	ft_atoi(const char *str);
+int str_to_nb(char *str);
+size_t	ft_strlen(const char *s);
+void	ft_putstr_fd(char *s, int fd);
 
 /* ph_tasks.c */
 int		is_eating(t_philo *ph);
@@ -101,5 +108,10 @@ unsigned long time_has_passed(unsigned long start, unsigned long time);
 
 /* philo_init.c */
 t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex);
+
+/* error_handler.c */
+void	*oom_guard(void *p);
+int input_args_error(int arg, char *arg_type);
+
 
 #endif

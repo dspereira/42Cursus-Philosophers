@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 19:19:13 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/30 20:39:07 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ static t_settings	settings_init(int argc, char **argv)
 {
 	t_settings	stg;
 
-	stg.number_of_ph = ft_atoi(argv[1]);
-	stg.time_to_die = ft_atoi(argv[2]);
-	stg.time_to_eat = ft_atoi(argv[3]);
-	stg.time_to_sleep = ft_atoi(argv[4]);
+	stg.number_of_ph = input_args_error(str_to_nb(argv[1]), ARG_1);
+	stg.time_to_die = input_args_error(str_to_nb(argv[2]), ARG_2);
+	stg.time_to_eat = input_args_error(str_to_nb(argv[3]), ARG_3);
+	stg.time_to_sleep = input_args_error(str_to_nb(argv[4]), ARG_4);
 	if (argc == 6)
 	{
-		stg.nb_times_to_eat = ft_atoi(argv[5]);
+		stg.nb_times_to_eat = input_args_error(str_to_nb(argv[5]), ARG_5);
 		stg.nb_times_to_eat_ultd = 0;
 	}
 	else
