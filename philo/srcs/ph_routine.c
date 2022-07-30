@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_routine.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/26 17:20:45 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/29 15:58:03 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,22 @@ void	*ph_routine(void *philo)
 	t_philo	ph;
 	int		state;
 
-	//usleep(500);
 	ph = *(t_philo *) philo;
 	time_counter_ini(ph.mutex);
 	state = HOLDING_FORKS;
+
+	if (ph.ph_number % 2 == 0)
+		usleep(2000);
+	if (ph.stg.number_of_ph % 2 != 0 && ph.ph_number == ph.stg.number_of_ph)
+		usleep(500);
 	while (state != EXIT)
 	{
-		//usleep(100);
+		usleep(100);
 		state = check_ph_is_dead(&ph, state);
 		if (!ph.stg.nb_times_to_eat_ultd)
 			state = check_of_times_eat(&ph, state);
 		if (state == HOLDING_FORKS)
-			state = holding_forks(ph);
+			state = holding_forks(&ph);
 		else if (state == EATING)
 			state = is_eating(&ph);
 		else if (state == SLEEPING)

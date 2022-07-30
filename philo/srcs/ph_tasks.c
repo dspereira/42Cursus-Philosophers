@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:04:29 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/25 15:46:05 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/28 16:50:42 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ int	is_eating(t_philo *ph)
 	{
 		ph->eating.status = 1;
 		ph->eating.time = get_actual_time_ms();
-		pthread_mutex_lock(ph->mutex);
-		(*(ph->cycles))++;
-		
-		if (*(ph->cycles) == ph->total_cycles)
-		{
-			if (*(ph->can_hold_fork) == EVEN)
-				*(ph->can_hold_fork) = ODD;
-			else
-				*(ph->can_hold_fork) = EVEN;
-			*(ph->cycles) = 0;
-		}
-		
-		pthread_mutex_unlock(ph->mutex);
 		printf("%lu %i is eating\n", ph->eating.time, ph->ph_number);
 	}
 	else if (time_has_passed(ph->eating.time, ph->stg.time_to_eat))

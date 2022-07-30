@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/26 16:59:12 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/29 15:21:04 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static void add_data_to_ph(t_philo *ph, t_settings stg, t_forks *forks, pthread_
 
 static void add_data_to_ph2(t_philo *ph)
 {
+	ph->n_forks_hold = 0;
+
 	ph->eating.status = 0;
 	ph->eating.time = 0;
 	ph->sleeping.status = 0;
