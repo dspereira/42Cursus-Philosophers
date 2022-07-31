@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 22:29:06 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/31 22:46:59 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@
 #define	EATED_ENOUGH	5
 #define EXIT			6
 
-#define	ARG_1			"number_of_philosophers"
-#define	ARG_2			"time_to_die"
-#define	ARG_3			"time_to_eat"
-#define	ARG_4			"time_to_sleep"
-#define	ARG_5			"number_of_times_each_philosopher_must_eat"
+#define	ARG_1			"number_of_philosophers\n"
+#define	ARG_2			"time_to_die\n"
+#define	ARG_3			"time_to_eat\n"
+#define	ARG_4			"time_to_sleep\n"
+#define	ARG_5			"number_of_times_each_philosopher_must_eat\n"
+
+#define PTHREAD_CREATE	"Error create pthread\n"
 
 
 typedef struct s_time
@@ -114,6 +116,8 @@ t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex);
 void	*oom_guard(void *p);
 void	*oom_guard2(void *p);
 int input_args_error(int arg, char *arg_type);
+void number_input_args_error(int argc);
+void pthread_error(int err, char *type_error);
 
 /* alloc_mem.c */
 void	init_alloc_mem(void);

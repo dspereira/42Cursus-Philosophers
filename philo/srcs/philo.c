@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 22:29:26 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/31 23:17:43 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,7 @@ int main (int argc, char **argv)
 	int		n_ph;
 	pthread_mutex_t	mutex;
 
-	int taks_end = 0;
-	
-	
-	if (argc < 5)
-	{
-		printf("error\n");
-		return (1);
-	}
-
+	number_input_args_error(argc);
 	init_alloc_mem();
 	n_ph = str_to_nb(argv[1]);
 	ph = philo_init(argc, argv, &mutex);

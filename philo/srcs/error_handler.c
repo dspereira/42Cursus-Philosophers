@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 19:57:13 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 22:30:42 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/07/31 23:18:05 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,31 @@ int input_args_error(int arg, char *arg_type)
     if (arg <= 0)
     {
         free_alloc_mem();
-        ft_putstr_fd("wrong args: ", STDERR_FILENO);
+        ft_putstr_fd("Wrong args: ", STDERR_FILENO);
         ft_putstr_fd(arg_type, STDERR_FILENO);
-        ft_putstr_fd("\n", STDERR_FILENO);
         exit(EXIT_FAILURE);
     }
     return (arg);
+}
+
+void number_input_args_error(int argc)
+{
+    if (argc < 5 || argc > 6)
+    {
+        ft_putstr_fd("Wrong number of args \n", STDERR_FILENO);
+        exit(EXIT_FAILURE);
+    }
+}
+
+
+// precisa de limpar os mutex 
+// pthread_detach
+void pthread_error(int err, char *type_error)
+{
+    if (err)
+    {
+        free_alloc_mem();
+        ft_putstr_fd(type_error, STDERR_FILENO);
+        exit(EXIT_FAILURE);
+    }
 }
