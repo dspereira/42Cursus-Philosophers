@@ -29,11 +29,15 @@ int str_to_nb(char *str)
 			mult = -1;
 		i++;
 	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num = (num * 10) + str[i] - 48;
+		i++;
+	}
 	while (str[i] != '\0')
 	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
+		if (!((str[i] >= 9 && str[i] <= 13) || str[i] == ' '))
 			return (0);
-		num = (num * 10) + str[i] - 48;
 		i++;
 	}
 	return ((int)(num * mult));	

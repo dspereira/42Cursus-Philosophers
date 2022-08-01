@@ -80,6 +80,7 @@ static t_settings	settings_init(int argc, char **argv)
 static t_forks	*init_forks(int n)
 {
 	t_forks	*forks;
+	int		err;
 	int		i;
 
 	if (n > 0)
@@ -90,7 +91,9 @@ static t_forks	*init_forks(int n)
 		while (i < n)
 		{
 			forks[i].state = AVAILABLE;
-			pthread_mutex_init(&(forks[i].mutex), NULL);
+			err = pthread_mutex_init(&(forks[i].mutex), NULL);
+			//err = -1;
+			thread_error(err, MUTEX_INIT);
 			i++;
 		}
 		return (forks);

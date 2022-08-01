@@ -54,10 +54,9 @@ void number_input_args_error(int argc)
     }
 }
 
-
 // precisa de limpar os mutex 
 // pthread_detach
-void pthread_error(int err, char *type_error)
+void thread_error(int err, char *type_error)
 {
     if (err)
     {

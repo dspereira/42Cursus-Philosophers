@@ -37,7 +37,7 @@
 #define	ARG_5			"number_of_times_each_philosopher_must_eat\n"
 
 #define PTHREAD_CREATE	"Error create pthread\n"
-
+#define MUTEX_INIT		"Error mutex init\n"
 
 typedef struct s_time
 {
@@ -117,12 +117,11 @@ void	*oom_guard(void *p);
 void	*oom_guard2(void *p);
 int input_args_error(int arg, char *arg_type);
 void number_input_args_error(int argc);
-void pthread_error(int err, char *type_error);
+void thread_error(int err, char *type_error);
 
 /* alloc_mem.c */
 void	init_alloc_mem(void);
 void	save_alloc_mem(void *data);
 void	free_alloc_mem(void);
-
 
 #endif

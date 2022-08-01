@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   theads.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:28:36 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/31 23:15:03 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:44:56 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void create_threads(t_philo *ph, int n)
     while (i < n)
     {
         err = pthread_create(&(ph[i].thread), NULL, &ph_routine, &ph[i]);
-        pthread_error(err, PTHREAD_CREATE);
+        thread_error(err, PTHREAD_CREATE);
         i++;
     }
 }
