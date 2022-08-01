@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/01 16:27:00 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:43:45 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int main (int argc, char **argv)
 	number_input_args_error(argc);
 	init_alloc_mem();
 	n_ph = str_to_nb(argv[1]);
-	ph = philo_init(argc, argv, &mutex);
+	ph = philo_init(argc, argv);
 
-	pthread_mutex_init(&mutex, NULL);
+	//pthread_mutex_init(&mutex, NULL);
 	create_threads(ph, n_ph);
 	wait_threads(ph, n_ph);
 	
-	pthread_mutex_destroy(&mutex);
+	//pthread_mutex_destroy(&mutex);
 
 	destroy_forks_mutex(ph[0].forks, ph[0].stg.number_of_ph);
 	free_alloc_mem();

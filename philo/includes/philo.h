@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/01 16:16:25 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 17:05:04 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ unsigned long get_actual_time_ms(void);
 unsigned long time_has_passed(unsigned long start, unsigned long time);
 
 /* philo_init.c */
-t_philo *philo_init(int argc, char **argv, pthread_mutex_t *mutex);
+t_philo *philo_init(int argc, char **argv);
 
 /* error_handler.c */
 void	*oom_guard(void *p);
@@ -126,5 +126,9 @@ void	save_alloc_mem(void *data);
 void	free_alloc_mem(void);
 
 void destroy_forks_mutex(t_forks *forks, int n);
+
+/* mutex.c */
+void init_mutex(t_forks *forks, int n_forks, pthread_mutex_t *mutex);
+void destroy_mutex(t_forks *forks, int n_forks, pthread_mutex_t *mutex);
 
 #endif

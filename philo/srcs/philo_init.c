@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/01 16:32:53 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 17:12:50 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ static t_settings	settings_init(int argc, char **argv);
 static t_forks		*init_forks(int n);
 static void			add_forks_to_ph(t_philo *ph, t_forks *forks);
 
-t_philo	*philo_init(int argc, char **argv, pthread_mutex_t *mutex)
+t_philo	*philo_init(int argc, char **argv)
 {
 	t_philo		*ph;
 	t_forks		*forks;
 	t_settings	stg;
+	pthread_mutex_t mutex;
 	int			*died;
 	int			i;
 
@@ -32,11 +33,13 @@ t_philo	*philo_init(int argc, char **argv, pthread_mutex_t *mutex)
 	died = oom_guard(malloc(sizeof(int)));
 	save_alloc_mem(died);
 	*died = 0;
+	pthread_mutex_init(&mutex, NULL);
+
 	i = 0;
 	while (i < stg.number_of_ph)
 	{
 		ph[i].stg = stg;
-		ph[i].mutex = mutex;
+		ph[i].mutex = &mutex;
 		ph[i].ph_number = i + 1;
 		ph[i].died = died;
 		init_data(&ph[i]);
@@ -92,7 +95,8 @@ static t_forks	*init_forks(int n)
 		{
 			forks[i].state = AVAILABLE;
 			err = pthread_mutex_init(&(forks[i].mutex), NULL);
-			destroy_forks_mutex(forks, i);
+			if (err)
+				destroy_forks_mutex(forks, i);
 			thread_error(err, MUTEX_INIT);
 			i++;
 		}
