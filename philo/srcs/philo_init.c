@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/31 22:31:07 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:32:53 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static t_forks	*init_forks(int n)
 		{
 			forks[i].state = AVAILABLE;
 			err = pthread_mutex_init(&(forks[i].mutex), NULL);
-			//err = -1;
+			destroy_forks_mutex(forks, i);
 			thread_error(err, MUTEX_INIT);
 			i++;
 		}
@@ -105,6 +105,7 @@ static void	add_forks_to_ph(t_philo *ph, t_forks *forks)
 {
 	int	fork_index;
 
+	ph->forks = forks;
 	fork_index = ph->ph_number - 1;
 	ph->fork_right = &forks[fork_index];
 	if (ph->stg.number_of_ph > 1)

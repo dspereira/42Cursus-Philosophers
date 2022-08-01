@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   forks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:23:52 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 16:54:42 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:24:23 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,16 @@ static int	hold_fork(t_forks *fork)
 	}
 	pthread_mutex_unlock(&(fork->mutex));
 	return (state);
+}
+
+void destroy_forks_mutex(t_forks *forks, int n)
+{
+	int i;
+
+	i = 0;
+	while (i < n)
+	{
+		pthread_mutex_destroy(&forks[i].mutex);
+		i++;
+	}
 }

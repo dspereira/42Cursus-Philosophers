@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/31 22:46:59 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/01 16:16:25 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_philo
 	t_settings		stg;
 	t_time			eating;
 	t_time			sleeping;
+	t_forks			*forks;
 	t_forks			*fork_right;
 	t_forks			*fork_left;
 	int				ph_number;
@@ -123,5 +124,7 @@ void thread_error(int err, char *type_error);
 void	init_alloc_mem(void);
 void	save_alloc_mem(void *data);
 void	free_alloc_mem(void);
+
+void destroy_forks_mutex(t_forks *forks, int n);
 
 #endif
