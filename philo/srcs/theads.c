@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:28:36 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 12:29:30 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 13:49:46 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,5 @@ void wait_threads(t_philo *ph, int n)
         i++;
     }
 }
+
+

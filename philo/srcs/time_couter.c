@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 09:47:30 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 11:56:04 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:08:36 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,25 @@ unsigned long	time_has_passed(unsigned long start, unsigned long time)
 	return (0);
 }
 
+
 static unsigned long	get_offset_time(void)
 {
 	static unsigned long	offset = 0;
+	unsigned long			buffer;
 	struct timeval			t;
 
 	if (!offset)
 	{
 		gettimeofday(&t, NULL);
-		offset = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+		buffer = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+		offset = buffer;
+		while (1)
+		{
+			gettimeofday(&t, NULL);
+			offset = (t.tv_sec * 1000) + (t.tv_usec / 1000);
+			if (offset > buffer)
+				break ;
+		}
 	}
 	return (offset);
 }

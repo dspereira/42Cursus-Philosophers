@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 12:19:41 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:44:54 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_philo	*philo_init(int argc, char **argv)
 	pthread_mutex_t *mutex;
 	int			*died;
 	int			*start;
+	int 		*end;
 	int			i;
 
 	stg = settings_init(argc, argv);
@@ -39,6 +40,8 @@ t_philo	*philo_init(int argc, char **argv)
 	start = oom_guard(malloc(sizeof(int)));
 	save_alloc_mem(start);
 	*start = 0;
+	end = oom_guard(malloc(sizeof(int)));
+	*end = 0;
 
 	pthread_mutex_init(mutex, NULL);
 
@@ -50,6 +53,7 @@ t_philo	*philo_init(int argc, char **argv)
 		ph[i].ph_number = i + 1;
 		ph[i].died = died;
 		ph[i].start = start;
+		ph[i].end = end;
 		init_data(&ph[i]);
 		add_forks_to_ph(&ph[i], forks);
 		i++;

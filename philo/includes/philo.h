@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 12:06:48 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 14:43:30 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_philo
 	int				n_times_of_ate;
 	int				n_forks_hold;
 	int				*start;
+	int				*end;
 }   t_philo;
 
 typedef struct s_alloc_mem
