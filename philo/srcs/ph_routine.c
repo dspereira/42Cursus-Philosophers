@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/07/30 17:23:42 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 12:12:58 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,49 @@ void	*ph_routine(void *philo)
 	int		state;
 
 	ph = *(t_philo *) philo;
+	//time_counter_ini(ph.mutex);
+	
+	/*unsigned long time;
 	time_counter_ini(ph.mutex);
-	state = HOLDING_FORKS;
+	time = get_actual_time_ms();
+
+	pthread_mutex_lock(ph.mutex);
+	*(ph.start) += 1;
+	pthread_mutex_unlock(ph.mutex);
+	while (1)
+	{
+		pthread_mutex_lock(ph.mutex);
+		if (*(ph.start) == ph.stg.number_of_ph)
+		{	
+			pthread_mutex_unlock(ph.mutex);
+			break ;
+		}
+		pthread_mutex_unlock(ph.mutex);
+		
+		if (time_has_passed(time, 2))
+		{
+			return (NULL);
+		}
+	}
+	usleep(1000);
+	time_counter_ini(ph.mutex);
+	*/
+
+
+	pthread_mutex_lock(ph.mutex);
+	*(ph.start) += 1;
+	pthread_mutex_unlock(ph.mutex);
+	usleep(2000);
+	pthread_mutex_lock(ph.mutex);
+	if (*(ph.start) != ph.stg.number_of_ph)
+		state = EXIT;
+	else
+		state = HOLDING_FORKS;
+	pthread_mutex_unlock(ph.mutex);
+
+	time_counter_ini(ph.mutex);
+	
+	//state = HOLDING_FORKS;
 	if (ph.ph_number % 2 == 0)
 		usleep(2000);
 	if (ph.stg.number_of_ph % 2 != 0 && ph.ph_number == ph.stg.number_of_ph)

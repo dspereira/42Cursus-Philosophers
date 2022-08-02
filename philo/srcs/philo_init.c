@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/01 17:12:50 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 12:19:41 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ t_philo	*philo_init(int argc, char **argv)
 	t_philo		*ph;
 	t_forks		*forks;
 	t_settings	stg;
-	pthread_mutex_t mutex;
+	pthread_mutex_t *mutex;
 	int			*died;
+	int			*start;
 	int			i;
 
 	stg = settings_init(argc, argv);
@@ -33,15 +34,22 @@ t_philo	*philo_init(int argc, char **argv)
 	died = oom_guard(malloc(sizeof(int)));
 	save_alloc_mem(died);
 	*died = 0;
-	pthread_mutex_init(&mutex, NULL);
+	mutex = oom_guard(malloc(sizeof(pthread_mutex_t)));
+	save_alloc_mem(mutex);
+	start = oom_guard(malloc(sizeof(int)));
+	save_alloc_mem(start);
+	*start = 0;
+
+	pthread_mutex_init(mutex, NULL);
 
 	i = 0;
 	while (i < stg.number_of_ph)
 	{
 		ph[i].stg = stg;
-		ph[i].mutex = &mutex;
+		ph[i].mutex = mutex;
 		ph[i].ph_number = i + 1;
 		ph[i].died = died;
+		ph[i].start = start;
 		init_data(&ph[i]);
 		add_forks_to_ph(&ph[i], forks);
 		i++;
