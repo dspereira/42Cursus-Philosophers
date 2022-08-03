@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 17:45:48 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 14:17:24 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_alloc_mem
 void *ph_routine(void *philo);
 
 /* threads.c */
-void create_threads(t_philo *ph, int n);
-void wait_threads(t_philo *ph, int n);
+void create_threads(t_philo *ph);
+void wait_all_threads(t_philo *ph);
 
 /* utils.c */
 int str_to_nb(char *str);
@@ -103,6 +103,8 @@ int		is_thinkig(t_philo ph);
 //int		holding_forks(t_philo ph);
 int	holding_forks(t_philo *ph);
 void	drop_forks(t_philo ph);
+t_forks	*init_forks(int n);
+void	add_forks_to_ph(t_philo *ph, t_forks *forks);
 
 /* time_counter.c */
 void time_counter_ini(pthread_mutex_t *mutex);
@@ -128,6 +130,7 @@ void destroy_forks_mutex(t_forks *forks, int n);
 
 /* mutex.c */
 void init_mutex(t_forks *forks, int n_forks, pthread_mutex_t *mutex);
-void destroy_mutex(t_forks *forks, int n_forks, pthread_mutex_t *mutex);
+//void destroy_mutex(t_forks *forks, int n_forks, pthread_mutex_t *mutex);
+void	destroy_all_mutex(t_philo *ph);
 
 #endif

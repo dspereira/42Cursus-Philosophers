@@ -6,20 +6,17 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/03 10:29:19 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 12:12:24 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static void			add_data_to_ph(t_philo *p, t_forks *f, t_settings s);
 static void			init_data(t_philo *ph);
 static t_settings	settings_init(int argc, char **argv);
-static t_forks		*init_forks(int n);
-static void			add_forks_to_ph(t_philo *ph, t_forks *forks);
 
-static void add_data_to_ph(t_philo *p, t_forks *f, t_settings s);
-
-t_philo *philo_init(int argc, char **argv)
+t_philo	*philo_init(int argc, char **argv)
 {
 	t_philo		*ph;
 	t_forks		*forks;
@@ -30,12 +27,10 @@ t_philo *philo_init(int argc, char **argv)
 	ph = oom_guard(malloc(stg.number_of_ph * sizeof(t_philo)));
 	save_alloc_mem(ph);
 	add_data_to_ph(ph, forks, stg);
-
-
 	return (ph);
 }
 
-static void add_data_to_ph(t_philo *p, t_forks *f, t_settings s)
+static void	add_data_to_ph(t_philo *p, t_forks *f, t_settings s)
 {
 	pthread_mutex_t	*mutex;
 	int				*start;
@@ -48,7 +43,7 @@ static void add_data_to_ph(t_philo *p, t_forks *f, t_settings s)
 	save_alloc_mem(start);
 	*start = 0;
 	end = oom_guard(malloc(sizeof(int)));
-	save_alloc_mem(start);
+	save_alloc_mem(end);
 	*end = 0;
 	i = -1;
 	while (++i < s.number_of_ph)
@@ -59,54 +54,10 @@ static void add_data_to_ph(t_philo *p, t_forks *f, t_settings s)
 		p[i].start = start;
 		p[i].end = end;
 		init_data(&p[i]);
-		add_forks_to_ph(&p[i], f);		
+		add_forks_to_ph(&p[i], f);
 	}
 	init_mutex(f, s.number_of_ph, mutex);
 }
-
-
-
-
-//*********************************************
-/*t_philo	*philo_init(int argc, char **argv)
-{
-	t_philo		*ph;
-	t_forks		*forks;
-	t_settings	stg;
-	pthread_mutex_t *mutex;
-	int			*died;
-	int			*start;
-	int 		*end;
-	int			i;
-
-	stg = settings_init(argc, argv);
-	forks = init_forks(stg.number_of_ph);
-	ph = oom_guard(malloc(stg.number_of_ph * sizeof(t_philo)));
-	save_alloc_mem(ph);
-	mutex = oom_guard(malloc(sizeof(pthread_mutex_t)));
-	save_alloc_mem(mutex);
-	start = oom_guard(malloc(sizeof(int)));
-	save_alloc_mem(start);
-	*start = 0;
-	end = oom_guard(malloc(sizeof(int)));
-	*end = 0;
-
-	pthread_mutex_init(mutex, NULL);
-
-	i = 0;
-	while (i < stg.number_of_ph)
-	{
-		ph[i].stg = stg;
-		ph[i].mutex = mutex;
-		ph[i].ph_number = i + 1;
-		ph[i].start = start;
-		ph[i].end = end;
-		init_data(&ph[i]);
-		add_forks_to_ph(&ph[i], forks);
-		i++;
-	}
-	return (ph);
-}*/
 
 static void	init_data(t_philo *ph)
 {
@@ -128,76 +79,7 @@ static t_settings	settings_init(int argc, char **argv)
 	stg.time_to_sleep = input_args_error(str_to_nb(argv[4]), ARG_4);
 	if (argc == 6)
 		stg.nb_times_to_eat = input_args_error(str_to_nb(argv[5]), ARG_5);
-	else 
+	else
 		stg.nb_times_to_eat = 0;
 	return (stg);
-}
-
-
-
-/*
-static t_forks	*init_forks(int n)
-{
-	t_forks	*forks;
-	int		err;
-	int		i;
-
-	if (n > 0)
-	{
-		forks = oom_guard(malloc(n * sizeof(t_forks)));
-		save_alloc_mem(forks);
-		i = 0;
-		while (i < n)
-		{
-			forks[i].state = AVAILABLE;
-			err = pthread_mutex_init(&(forks[i].mutex), NULL);
-			if (err)
-				destroy_forks_mutex(forks, i);
-			thread_error(err, MUTEX_INIT);
-			i++;
-		}
-		return (forks);
-	}
-	return (NULL);
-}*/
-
-
-static void	add_forks_to_ph(t_philo *ph, t_forks *forks)
-{
-	int	fork_index;
-
-	ph->forks = forks;
-	fork_index = ph->ph_number - 1;
-	ph->fork_right = &forks[fork_index];
-	if (ph->stg.number_of_ph > 1)
-	{
-		if (ph->ph_number == ph->stg.number_of_ph)
-			ph->fork_left = &forks[0];
-		else
-			ph->fork_left = &forks[fork_index + 1];
-	}
-	else
-		ph->fork_left = NULL;
-}
-
-
-static t_forks	*init_forks(int n)
-{
-	t_forks	*forks;
-	int		err;
-	int		i;
-
-	if (n > 0)
-	{
-		forks = oom_guard(malloc(n * sizeof(t_forks)));
-		save_alloc_mem(forks);
-		i = 0;
-		while (i < n)
-		{
-			forks[i].state = AVAILABLE;
-			i++;
-		}
-		return (forks);
-	}
-	return (NULL);
 }

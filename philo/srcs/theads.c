@@ -6,41 +6,57 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:28:36 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 13:49:46 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 14:25:48 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void create_threads(t_philo *ph, int n)
-{
-    int i;
-    int err;
+static void	wait_threads(t_philo *ph, int n);
 
-    i = 0;
-    while (i < n)
-    {
-        err = pthread_create(&(ph[i].thread), NULL, &ph_routine, &ph[i]);
-        if (err && i)
-        {
-            wait_threads(ph, i);
-            //destroy mutex
-        }
-        thread_error(err, PTHREAD_CREATE);
-        i++;
-    }
+void	create_threads(t_philo *ph)
+{
+	int	err;
+	int	n_ph;
+	int	i;
+
+	n_ph = ph[0].stg.number_of_ph;
+	i = 0;
+	while (i < n_ph)
+	{
+		err = pthread_create(&(ph[i].thread), NULL, &ph_routine, &ph[i]);
+		if (err)
+		{
+			wait_threads(ph, i);
+			destroy_all_mutex(ph);
+		}
+		thread_error(err, PTHREAD_CREATE);
+		i++;
+	}
 }
 
-void wait_threads(t_philo *ph, int n)
+void	wait_all_threads(t_philo *ph)
 {
-    int i;
+	int	n_ph;
+	int	i;
 
-    i = 0;
-    while (i < n)
-    {
-        pthread_join(ph[i].thread, NULL);
-        i++;
-    }
+	n_ph = ph[0].stg.number_of_ph;
+	i = 0;
+	while (i < n_ph)
+	{
+		pthread_join(ph[i].thread, NULL);
+		i++;
+	}
 }
 
+static void	wait_threads(t_philo *ph, int n)
+{
+	int	i;
 
+	i = 0;
+	while (i < n)
+	{
+		pthread_join(ph[i].thread, NULL);
+		i++;
+	}
+}
