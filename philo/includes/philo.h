@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 14:43:30 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:45:48 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_forks
 typedef struct s_settings
 {
 	int				number_of_ph;
-	int				nb_times_to_eat_ultd;
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
@@ -65,14 +64,13 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	pthread_mutex_t	*mutex;
-	t_settings		stg;
+	t_settings		stg; //settings
 	t_time			eating;
 	t_time			sleeping;
 	t_forks			*forks;
 	t_forks			*fork_right;
 	t_forks			*fork_left;
 	int				ph_number;
-	int				*died;
 	int				n_times_of_ate;
 	int				n_forks_hold;
 	int				*start;
@@ -100,7 +98,6 @@ void	ft_putstr_fd(char *s, int fd);
 int		is_eating(t_philo *ph);
 int		is_sleeping(t_philo *ph);
 int		is_thinkig(t_philo ph);
-int		is_dying(t_philo ph);
 
 /* ph_tasks2.c */
 //int		holding_forks(t_philo ph);

@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:04:29 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 16:41:44 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:29:13 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ int	is_eating(t_philo *ph)
 	{
 		ph->eating.status = 1;
 		ph->eating.time = get_actual_time_ms();
-
 		(ph->n_times_of_ate)++;
-		if (!ph->stg.nb_times_to_eat_ultd && ph->n_times_of_ate == ph->stg.nb_times_to_eat)
+		if (ph->n_times_of_ate == ph->stg.nb_times_to_eat)
 		{
 			pthread_mutex_lock(ph->mutex);
 			*(ph->end) += 1;
 			pthread_mutex_unlock(ph->mutex);
 		}
-		
 		printf("%lu %i is eating\n", ph->eating.time, ph->ph_number);
 	}
 	else if (time_has_passed(ph->eating.time, ph->stg.time_to_eat))
@@ -64,11 +62,4 @@ int	is_thinkig(t_philo ph)
 {
 	printf("%lu %i is thinkig\n", get_actual_time_ms(), ph.ph_number);
 	return (HOLDING_FORKS);
-}
-
-int	is_dying(t_philo ph)
-{
-	if (*ph.died == ph.ph_number)
-		printf("%lu %i died\n", get_actual_time_ms(), ph.ph_number);
-	return (EXIT);
 }

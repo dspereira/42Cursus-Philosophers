@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsilveri <dsilveri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:04 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/01 16:43:45 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 10:27:35 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main (int argc, char **argv)
 	//pthread_mutex_destroy(&mutex);
 
 	destroy_forks_mutex(ph[0].forks, ph[0].stg.number_of_ph);
-	free_alloc_mem();
+	//free_alloc_mem();
 
 	return (0);
 }

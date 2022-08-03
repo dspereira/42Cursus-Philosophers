@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 10:47:43 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 14:44:54 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 10:29:19 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,58 @@ static t_settings	settings_init(int argc, char **argv);
 static t_forks		*init_forks(int n);
 static void			add_forks_to_ph(t_philo *ph, t_forks *forks);
 
-t_philo	*philo_init(int argc, char **argv)
+static void add_data_to_ph(t_philo *p, t_forks *f, t_settings s);
+
+t_philo *philo_init(int argc, char **argv)
+{
+	t_philo		*ph;
+	t_forks		*forks;
+	t_settings	stg;
+
+	stg = settings_init(argc, argv);
+	forks = init_forks(stg.number_of_ph);
+	ph = oom_guard(malloc(stg.number_of_ph * sizeof(t_philo)));
+	save_alloc_mem(ph);
+	add_data_to_ph(ph, forks, stg);
+
+
+	return (ph);
+}
+
+static void add_data_to_ph(t_philo *p, t_forks *f, t_settings s)
+{
+	pthread_mutex_t	*mutex;
+	int				*start;
+	int				*end;
+	int				i;
+
+	mutex = oom_guard(malloc(sizeof(pthread_mutex_t)));
+	save_alloc_mem(mutex);
+	start = oom_guard(malloc(sizeof(int)));
+	save_alloc_mem(start);
+	*start = 0;
+	end = oom_guard(malloc(sizeof(int)));
+	save_alloc_mem(start);
+	*end = 0;
+	i = -1;
+	while (++i < s.number_of_ph)
+	{
+		p[i].stg = s;
+		p[i].mutex = mutex;
+		p[i].ph_number = i + 1;
+		p[i].start = start;
+		p[i].end = end;
+		init_data(&p[i]);
+		add_forks_to_ph(&p[i], f);		
+	}
+	init_mutex(f, s.number_of_ph, mutex);
+}
+
+
+
+
+//*********************************************
+/*t_philo	*philo_init(int argc, char **argv)
 {
 	t_philo		*ph;
 	t_forks		*forks;
@@ -32,9 +83,6 @@ t_philo	*philo_init(int argc, char **argv)
 	forks = init_forks(stg.number_of_ph);
 	ph = oom_guard(malloc(stg.number_of_ph * sizeof(t_philo)));
 	save_alloc_mem(ph);
-	died = oom_guard(malloc(sizeof(int)));
-	save_alloc_mem(died);
-	*died = 0;
 	mutex = oom_guard(malloc(sizeof(pthread_mutex_t)));
 	save_alloc_mem(mutex);
 	start = oom_guard(malloc(sizeof(int)));
@@ -51,7 +99,6 @@ t_philo	*philo_init(int argc, char **argv)
 		ph[i].stg = stg;
 		ph[i].mutex = mutex;
 		ph[i].ph_number = i + 1;
-		ph[i].died = died;
 		ph[i].start = start;
 		ph[i].end = end;
 		init_data(&ph[i]);
@@ -59,7 +106,7 @@ t_philo	*philo_init(int argc, char **argv)
 		i++;
 	}
 	return (ph);
-}
+}*/
 
 static void	init_data(t_philo *ph)
 {
@@ -80,18 +127,15 @@ static t_settings	settings_init(int argc, char **argv)
 	stg.time_to_eat = input_args_error(str_to_nb(argv[3]), ARG_3);
 	stg.time_to_sleep = input_args_error(str_to_nb(argv[4]), ARG_4);
 	if (argc == 6)
-	{
 		stg.nb_times_to_eat = input_args_error(str_to_nb(argv[5]), ARG_5);
-		stg.nb_times_to_eat_ultd = 0;
-	}
-	else
-	{
+	else 
 		stg.nb_times_to_eat = 0;
-		stg.nb_times_to_eat_ultd = 1;
-	}
 	return (stg);
 }
 
+
+
+/*
 static t_forks	*init_forks(int n)
 {
 	t_forks	*forks;
@@ -115,7 +159,8 @@ static t_forks	*init_forks(int n)
 		return (forks);
 	}
 	return (NULL);
-}
+}*/
+
 
 static void	add_forks_to_ph(t_philo *ph, t_forks *forks)
 {
@@ -133,4 +178,26 @@ static void	add_forks_to_ph(t_philo *ph, t_forks *forks)
 	}
 	else
 		ph->fork_left = NULL;
+}
+
+
+static t_forks	*init_forks(int n)
+{
+	t_forks	*forks;
+	int		err;
+	int		i;
+
+	if (n > 0)
+	{
+		forks = oom_guard(malloc(n * sizeof(t_forks)));
+		save_alloc_mem(forks);
+		i = 0;
+		while (i < n)
+		{
+			forks[i].state = AVAILABLE;
+			i++;
+		}
+		return (forks);
+	}
+	return (NULL);
 }
