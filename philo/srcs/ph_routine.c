@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/03 17:02:25 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:40:24 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	wait_for_all_threads_ready(t_philo ph);
 static int	is_ph_dead(t_philo *ph);
-static int	is_all_ph_ate_enough(t_philo *ph);
 static int	check_end_of_simul(t_philo *ph, int actual_state);
 
 void	*ph_routine(void *philo)
@@ -42,6 +41,7 @@ void	*ph_routine(void *philo)
 		else if (state == THINKING)
 			state = is_thinkig(ph);
 	}
+	return (NULL);
 }
 
 static int	wait_for_all_threads_ready(t_philo ph)

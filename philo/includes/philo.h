@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 09:48:00 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/03 15:28:12 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:42:03 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_settings
 	unsigned long	time_to_die;
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
-	unsigned long	nb_times_to_eat;
+	int				nb_times_to_eat;
 }	t_settings;
 
 typedef struct s_philo

@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 15:23:52 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/03 12:15:12 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:39:19 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static int	hold_fork(t_forks *fork, int n_ph);
 t_forks	*init_forks(int n)
 {
 	t_forks	*forks;
-	int		err;
 	int		i;
 
 	if (n > 0)

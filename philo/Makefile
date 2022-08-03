@@ -5,9 +5,8 @@ SRCS			= $(wildcard srcs/*.c) \
 OBJS		= 	$(SRCS:.c=.o)
 
 CC			= gcc
-#CFLAGS		= -g -pthread -Wall -Wextra -Werror -I ./includes
-CFLAGS		= -g -pthread -I ./includes
-#CFLAGS		= -g -fsanitize=thread -pthread -I ./includes
+CFLAGS		= -g -pthread -Wall -Wextra -Werror -I ./includes
+#CFLAGS		= -g -fsanitize=thread -pthread -Wall -Wextra -Werror -I ./includes
 RM			= rm -f
 
 
