@@ -6,7 +6,7 @@
 /*   By: dsilveri <dsilveri@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 16:25:31 by dsilveri          #+#    #+#             */
-/*   Updated: 2022/08/02 17:17:46 by dsilveri         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:02:25 by dsilveri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*ph_routine(void *philo)
 	int		state;
 
 	ph = *(t_philo *) philo;
-	wait_for_all_threads_ready(ph);
+	state = wait_for_all_threads_ready(ph);
 	time_counter_ini(ph.mutex);
 	if (ph.ph_number % 2 == 0)
 		usleep(2000);
@@ -47,17 +47,29 @@ void	*ph_routine(void *philo)
 static int	wait_for_all_threads_ready(t_philo ph)
 {
 	int	state;
+	int	i;
 
 	pthread_mutex_lock(ph.mutex);
 	*(ph.start) += 1;
 	pthread_mutex_unlock(ph.mutex);
-	usleep(2000);
-	pthread_mutex_lock(ph.mutex);
-	if (*(ph.start) != ph.stg.number_of_ph)
-		state = EXIT;
-	else
-		state = HOLDING_FORKS;
-	pthread_mutex_unlock(ph.mutex);
+	i = -1;
+	while (1)
+	{
+		pthread_mutex_lock(ph.mutex);
+		if (*(ph.start) == ph.stg.number_of_ph)
+		{
+			state = HOLDING_FORKS;
+			pthread_mutex_unlock(ph.mutex);
+			break ;
+		}
+		pthread_mutex_unlock(ph.mutex);
+		if (++i >= 200)
+		{
+			state = EXIT;
+			break ;
+		}
+		usleep(10);
+	}
 	return (state);
 }
 
