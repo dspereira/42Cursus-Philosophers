@@ -9,6 +9,19 @@ Clone repo:
 git clone https://github.com/dspereira/42Cursus-Philosophers.git philo
 ```
 
+Build:
+```shell
+make
+```
+or
+```shell
+make re
+```
+
+Usage example:
+```shell
+./philo 4 310 200 100
+```
 
 ## License
 
