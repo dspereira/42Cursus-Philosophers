@@ -1,6 +1,6 @@
 # 42Cursus-Philosophers
 
-This project is an integral part of the 42Lisboa curriculum and aims to create a program than simulate and solve the dining philosophers problem.
+This project is an integral part of the 42Lisboa curriculum and aims to create a program written in C that simulates and solves the dining philosophers problem.
 
 The primary goal of this project is to learn about concurrent multithreading and explore associated challenges, such as race conditions and deadlocks. Additionally, the project aims to understand and implement solutions for these challenges through the use of mutexes or semaphores.
 
