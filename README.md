@@ -4,7 +4,7 @@ This project is an integral part of the 42Lisboa curriculum and aims to create a
 
 The primary goal of this project is to learn about concurrent multithreading and explore associated challenges, such as race conditions and deadlocks. Additionally, the project aims to understand and implement solutions for these challenges through the use of mutexes or semaphores.
 
-## Dining Philosophers Problem
+## The Dining Philosophers Problem
 
 The Dining Philosophers Problem is a classic challenge designed to explore multithreading and its associated challenges.
 
@@ -13,7 +13,12 @@ Each philosopher needs to eat, sleep, and think in that order, and they must sta
 
 1. Eat:
    - For the philosopher to eat, he needs two forks. However, since each philosopher has only one fork, he needs to hold the fork of his neighbor on the table. First, he tries to grab a right fork, and then the left. After successfully catch any forks, he just release after being able to eat and finish.
+  
+2. Sleep:
+   - After eating, the philosopher places the forks back on the table and starts sleeping.
 
+3. Think:
+   - After waking up, the philosopher begins to think. While doing so, he will attempt to grab the forks again to eat, repeating the cycle.
 
 ## Installation / Usage
 
