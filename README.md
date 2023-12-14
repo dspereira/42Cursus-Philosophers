@@ -8,11 +8,11 @@ The primary goal of this project is to learn about concurrent multithreading and
 
 The Dining Philosophers Problem is a classic challenge designed to explore multithreading and its associated challenges.
 
-So, on a round table, there are five bowls of spaghetti, and between each bowl, there is a fork (five forks on the table). In front of each bowl sits a philosopher, starving and eager to eat.
-Each philosopher needs to eat, sleep, and think in that order, and they must start eating before starving until death.
+So, on a round table, there are five bowls of spaghetti and between each bowl, there is a fork (five forks on the table). In front of each bowl sits a philosopher, starving and eager to eat.
+Each philosopher needs to eat, sleep and think in that order and they must start eating before starving until death.
 
 1. Eat:
-   - For the philosopher to eat, he needs two forks. However, since each philosopher has only one fork, he needs to hold the fork of his neighbor on the table. First, he tries to grab a right fork, and then the left. After successfully catch any forks, he just release after being able to eat and finish.
+   - For the philosopher to eat, he needs two forks. However, since each philosopher has only one fork, he needs to hold the fork of his neighbor on the table. First, he tries to grab a right fork and then the left. After successfully catch any forks, he just release after being able to eat and finish.
   
 2. Sleep:
    - After eating, the philosopher places the forks back on the table and starts sleeping.
@@ -22,11 +22,11 @@ Each philosopher needs to eat, sleep, and think in that order, and they must sta
 
 ## Specific Problems and Solutions
 
-Each philosopher takes a predetermined time to eat, to sleep and to die, the especific times will be passed by parameter. If a philosopher cannot grab the forks and eat before the 'time to die' timeout, the philosopher will die, and the simulation stops. Of course, the goal is to continue the simulation for as long as possible.
+Each philosopher takes a predetermined time to eat, to sleep and to die, the especific times will be passed by parameter. If a philosopher cannot grab the forks and eat before the 'time to die' timeout, the philosopher will die and the simulation stops. Of course, the goal is to continue the simulation for as long as possible.
 
 **Race Condition:**
 
-Every philosopher is a thread, and every fork is a resource that the thread has to process. In this case, every thread will share resources with another thread (every philosopher will share a fork with the neighbor on the table).
+Every philosopher is a thread and every fork is a resource that the thread has to process. In this case, every thread will share resources with another thread (every philosopher will share a fork with the neighbor on the table).
 
 This creates a problem known as a race condition. Race conditions occur when multiple threads attempt to process a resource simultaneously, leading to issues. For example, consider an integer with an initial value of 10 that we want two threads to increment. The expected result should be 12, as each thread increments the original value by 1. However, if the threads try to increment the value at the same time, both may read the original value (10) before either increments it. Consequently, they both increment from the value 10, resulting in a final value of 11, which is incorrect.
 
