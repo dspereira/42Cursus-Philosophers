@@ -28,7 +28,7 @@ Each philosopher takes a predetermined time to eat, to sleep and to die, the esp
 
 Every philosopher is a thread and every fork is a resource that the thread has to process. In this case, every thread will share resources with another thread (every philosopher will share a fork with the neighbor on the table).
 
-This creates a problem known as a race condition. Race conditions occur when multiple threads attempt to process a resource simultaneously, leading to issues. For example, consider an integer with an initial value of 10 that we want two threads to increment. The expected result should be 12, as each thread increments the original value by 1. However, if the threads try to increment the value at the same time, both may read the original value (10) before either increments it. Consequently, they both increment from the value 10, resulting in a final value of 11, which is incorrect.
+This creates a problem known as a race condition. Race conditions occur when multiple threads attempt to process a resource simultaneously, leading to issues. For example, consider an integer with an initial value of 10 that we want two threads to increment. The expected result should be 12, as each thread increments the original value by 1. However, if the threads try to increment the value at the same time, both may read the original value 10 before either increments it. Consequently, they both increment from the value 10, resulting in a final value of 11, which is incorrect.
 
 To solve this problem, a technique called mutexes (locking mechanism) is employed. This essentially locks a section of memory when some threads are using it and releases that memory to allow another thread to use it. The result is that only one thread at a time can use a resource.
 
