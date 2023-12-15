@@ -46,7 +46,11 @@ If we categorize the philosophers into even and odd, we can start by allowing th
 
 In conclusion, if we successfully solve race conditions and deadlocks, the only way for philosophers to face mortality is by not providing sufficient time for sleep and setting a short "time to die." As these are variable parameters that you can customize, you have the flexibility to test with any quantity of philosophers (exercise caution with the number of threads you create) and adjust the times as needed. Below is an example:
 
+```shell
+./philo n_of_philosophers time_to_die time_to_eat time_to_sleep n_of_times_each_philosopher_must_eat(optional)
+```
 
+![example](https://github.com/dspereira/42Cursus-Philosophers/blob/main/images/example.png)
 
 ## Installation / Usage
 
