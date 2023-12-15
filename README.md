@@ -32,6 +32,19 @@ This creates a problem known as a race condition. Race conditions occur when mul
 
 To solve this problem, a technique called mutexes (locking mechanism) is employed. This essentially locks a section of memory when some threads are using it and releases that memory to allow another thread to use it. The result is that only one thread at a time can use a resource.
 
+**Deadlocks:**
+
+So, while using mutexes to solve race conditions, we introduce another problem known as deadlocks. 
+
+For simplicity, consider a scenario with two philosophers, two bowls of spaghetti, and two forks. In the initial program state, if each philosopher attempts to grab a right fork, neither can eat because there is only one fork, and neither can release a fork because they haven't eaten yet. Consequently, the two philosophers will starve until death, resulting in a deadlock. A deadlock occurs when a thread is waiting for a resource that is being used by another thread, and the thread holding the resource cannot release it because it requires a resource held by the first thread.
+
+In this case the solution is simple, if in the start of program we gave a delay for the second philosopher to wait, the first philosopher has time to grab the 2 forks, and eat after eat he will sleep so now the second philosopher as time to grab the forks and eat, and afther will sleep. This solutions create a sycronism between the tho philosophers.
+
+If we divide the philosophers in even and odd, whe can start by the odd and gave a delay to even in the start o program and after that all the philoshopers will sicronise.
+
+**Conclusion:**
+
+In conclusion if we have sucess solving race condition and deadlocks, the only way to philosophers to die is don't give a rigth time to sleep and have short time to die. Because this are variable parameters that you have to pass, you can test with a quantity of philosophers you want (careful with the quantity of threads you create) 
 
 ## Installation / Usage
 
