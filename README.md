@@ -4,6 +4,16 @@ This project is an integral part of the 42Lisboa curriculum and aims to create a
 
 The primary goal of this project is to learn about concurrent multithreading and explore associated challenges, such as race conditions and deadlocks. Additionally, the project aims to understand and implement solutions for these challenges through the use of mutexes or semaphores.
 
+## Table of Content
+1. [The Dining Philosophers Problem](#the-dining-philosophers-problem)
+2. [Specific Problems and Solutions](#specific-problems-and-solutions)
+   1. [Race Condition](#race-condition)
+   2. [Deadlocks](#deadlocks)
+   3. [Conclusion](#conclusion)
+3. [Installation / Usage](#installation--usage)
+4. [License](#license)
+5. [Contact](#contact)
+
 ## The Dining Philosophers Problem
 
 The Dining Philosophers Problem is a classic challenge designed to explore multithreading and its associated challenges.
