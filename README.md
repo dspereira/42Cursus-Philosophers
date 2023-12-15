@@ -38,13 +38,15 @@ So, while using mutexes to solve race conditions, we introduce another problem k
 
 For simplicity, consider a scenario with two philosophers, two bowls of spaghetti, and two forks. In the initial program state, if each philosopher attempts to grab a right fork, neither can eat because there is only one fork, and neither can release a fork because they haven't eaten yet. Consequently, the two philosophers will starve until death, resulting in a deadlock. A deadlock occurs when a thread is waiting for a resource that is being used by another thread, and the thread holding the resource cannot release it because it requires a resource held by the first thread.
 
-In this case the solution is simple, if in the start of program we gave a delay for the second philosopher to wait, the first philosopher has time to grab the 2 forks, and eat after eat he will sleep so now the second philosopher as time to grab the forks and eat, and afther will sleep. This solutions create a sycronism between the tho philosophers.
+In this case, the solution is simple. If at the start of the program, we introduce a delay for the second philosopher to wait, the first philosopher has enough time to grab both forks and eat. After eating, the first philosopher will sleep, allowing the second philosopher the opportunity to grab the forks and eat. The second philosopher will, in turn, sleep after eating. This solution introduces a synchronization between the two philosophers, preventing the occurrence of deadlocks.
 
-If we divide the philosophers in even and odd, whe can start by the odd and gave a delay to even in the start o program and after that all the philoshopers will sicronise.
+If we categorize the philosophers into even and odd, we can start by allowing the odd philosophers to begin and introduce a delay for the even philosophers at the start of the program. After this initial delay, all the philosophers will synchronize, ensuring a smooth and coordinated execution.
 
 **Conclusion:**
 
-In conclusion if we have sucess solving race condition and deadlocks, the only way to philosophers to die is don't give a rigth time to sleep and have short time to die. Because this are variable parameters that you have to pass, you can test with a quantity of philosophers you want (careful with the quantity of threads you create) 
+In conclusion, if we successfully solve race conditions and deadlocks, the only way for philosophers to face mortality is by not providing sufficient time for sleep and setting a short "time to die." As these are variable parameters that you can customize, you have the flexibility to test with any quantity of philosophers (exercise caution with the number of threads you create) and adjust the times as needed. Below is an example:
+
+
 
 ## Installation / Usage
 
