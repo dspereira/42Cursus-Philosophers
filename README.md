@@ -5,7 +5,6 @@ This project is an integral part of the 42Lisboa curriculum and aims to create a
 The primary goal of this project is to learn about concurrent multithreading and explore associated challenges, such as race conditions and deadlocks. Additionally, the project aims to understand and implement solutions for these challenges through the use of mutexes or semaphores.
 
 ## Table of Content
-## Table of Content
 * [The Dining Philosophers Problem](#the-dining-philosophers-problem)
 * [Specific Problems and Solutions](#specific-problems-and-solutions)
    - [Race Condition](#race-condition)
