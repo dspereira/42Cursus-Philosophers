@@ -22,13 +22,16 @@ On a round table, there are five bowls of spaghetti, and between each bowl, ther
 Each philosopher needs to eat, sleep and think in that order and they must start eating before starving to death.
 
 1. Eat:
-   - For the philosopher to eat, he needs two forks. However, since each philosopher has only one fork, he needs to hold the fork of his neighbor on the table. First, he tries to grab the right fork and then the left. After successfully catching any forks, he releases them after being able to eat and finish.
+   - For the philosopher to eat, he needs two forks. Therefore, he first tries to grab the right fork and then the left one, if they are available. If one of the forks is not available, the philosopher will have to wait until it becomes available.
   
 2. Sleep:
    - After eating, the philosopher places the forks back on the table and starts sleeping.
 
 3. Think:
    - After waking up, the philosopher begins to think. While doing so, he will attempt to grab the forks again to eat, repeating the cycle.
+  
+4. Die:
+   - Each philosopher has a maximum time they can wait for eating. If they cannot eat within this time, they will starve.
   
 **For more information, see:**
 * [Project Subject](https://github.com/dspereira/42Cursus-Philosophers/blob/main/en.subject.pdf)
