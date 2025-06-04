@@ -61,7 +61,7 @@ In this case, the solution is simple. If at the start of the program, we introdu
 
 If we categorize the philosophers into even and odd, we can start by allowing the odd philosophers to begin and introduce a delay for the even philosophers at the start of the program. After this initial delay, all the philosophers will synchronize, ensuring a smooth and coordinated execution.
 
-[More informations](https://en.wikipedia.org/wiki/Deadlock)
+[More informations](https://en.wikipedia.org/wiki/Deadlock_(computer_science))
 
 ### Conclusion
 
